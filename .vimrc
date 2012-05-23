@@ -37,12 +37,16 @@ imap <C-j> <C-[>
 imap <C-k> <C-m>
 
 " インサートモード、コマンドモード時はEmacsキーバインドを使う
+inoremap <C-a> <Home>
+"inoremap <C-e> <End>
 inoremap <C-b> <Left>
-inoremap <C-n> <Down>
-inoremap <C-p> <Up>
 inoremap <C-f> <Right>
-cnoremap <C-b> <Left>
-cnoremap <C-f> <Right>
+"inoremap <C-n> <Down>
+"inoremap <C-p> <Up>
+"cnoremap <C-b> <Left>
+"cnoremap <C-f> <Right>
+inoremap <C-h> <BS>
+inoremap <C-d> <Del>
 
 " スペースを押した時、中心を保ってスクロール
 noremap <Space> jzz
@@ -102,6 +106,57 @@ filetype plugin on
 filetype indent on
 
 let g:neocomplcache_enable_at_startup = 1 
+" ポップアップメニューで表示される候補の数
+let g:neocomplcache_max_list = 20
+" 自動補完を行なう入力数
+let g:neocomplcache_auto_completion_start_length = 2
+" 手動補完時に補完を行なう入力数を制限
+let g:neocomplcache_manual_completion_start_length = 3
+" 補完検索時に大文字・小文字を無視する
+let g:neocomplcache_enable_ignore_case= 1
+" 大文字が入力されている場合、大文字・小文字を区別する
+let g:neocomplcache_enable_smart_case = 1
+
+" 補完するためのキーワードパターンを指定
+if !exists('g:neocomplcache_keyword_patterns')
+  let g:neocomplcache_keyword_patterns = {}
+endif
+" 日本語を補完候補としない
+let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+let g:neocomplcache_keyword_patterns['twig'] = '</\?\%([[:alnum:]_:]\+\s*\)\?\%(/\?>\)\?\|&\h\%(\w*:\)\?\|h[[:alnum:]_-]*="\%([^"]*"\?\)\?\|h[[:alnum:]_:-]*'
+
+if !exists('g:neocomplcache_delimiter_patterns')
+  let g:neocomplcache_delimiter_patterns = {}
+endif
+let g:neocomplcache_delimiter_patterns['php'] = ['->', '::', '\']
+
+if !exists('g:neocomplcache_next_keyword_patterns')
+  let g:neocomplcache_next_keyword_patterns = {}
+endif
+let g:neocomplcache_next_keyword_patterns['twig'] = '[[:alnum:]_:-]*>\|[^"]*"'
+
+
+inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
+inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "\<UP>" : "\<S-TAB>"
+inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<BS>"
+inoremap <expr><C-y> neocomplcache#close_popup()
+inoremap <expr><C-e> pumvisible() ? neocomplcache#cancel_popup() : "\<End>"
+inoremap <expr><C-g> neocomplcache#undo_completion()
+inoremap <expr><C-n> neocomplcache#manual_keyword_complete()
+inoremap <C-p><UP>
+" 補完候補の共通文字列を補完
+inoremap <expr><C-l> neocomplcache#complete_common_string()
+
+
+" unite ------------------------
+let g:unite_enable_start_insert = 0
+noremap <C-U><C-B> :Unite Buffer<CR>
+noremap <C-U><C-F> :UniteWithBufferDir -buffer-name=files file<CR>
+noremap <C-U><C-Y> :Unite -buffer-name=register register<CR>
+
+
 "autocmd FileType vimfiler nnoremap <buffer> / /^\s*\(\|-\\|\|+\\|+\\|-\) \zs
 
 
