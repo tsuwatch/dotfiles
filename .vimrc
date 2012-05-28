@@ -151,11 +151,48 @@ inoremap <expr><C-l> neocomplcache#complete_common_string()
 
 
 " unite ------------------------
-let g:unite_enable_start_insert = 0
-noremap <C-U><C-B> :Unite Buffer<CR>
-noremap <C-U><C-F> :UniteWithBufferDir -buffer-name=files file<CR>
-noremap <C-U><C-Y> :Unite -buffer-name=register register<CR>
+noremap [unite] <Nop>
+nmap <Space>f [unite]
 
+let g:unite_enable_start_insert = 0
+
+let g:unite_source_bookmark_directory = $HOME . '/.unite/bookmark'
+" 現在開いているファイルのディレクトリ下のファイル一覧
+noremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
+" バッファ一覧
+noremap <silent> [unite]b :<C-u>Unite buffer<CR>
+" レジスタ一覧
+noremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
+" ファイル閲覧履歴
+noremap <silent> [unite]m :<C-u>Unite file_mru<CR>
+" ブックマーク一覧
+noremap <silent> [unite]c :<C-u>Unite bookmark<CR>
+" ブックマークに追加
+noremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
+" uniteを開いている間のキーマッピング
+augroup vimrc
+  autocmd FileType unite call s:unite_my_settings()
+augroup END
+function! s:unite_my_settings()
+  nmap <buffer> <ESC> <Plug>(unite_exit)
+  imap <buffer> jj <Plug>(unite_insert_leave)
+  imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+  noremap <silent> <buffer> <expr> s unite#smart_map('s', unite#do_action('split'))
+  inoremap <silent> <buffer> <expr> s unite#smart_map('s', unite#do_action('split'))
+  noremap <silent> <buffer> <expr> v unite#smart_map('v', unite#do_action('vsplit'))
+  inoremap <silent> <buffer> <expr> v unite#smart_map('v', unite#do_action('vsplit'))
+  noremap <silent> <buffer> <expr> f unite#smart_map('f', unite#do_action('vimfiler'))
+  inoremap <silent> <buffer> <expr> f unite#smart_map('f', unite#do_action('vimfiler'))
+endfunction
+
+" vimfiler --------------------
+if has('macunix')
+  let g:vimfiler_data_directory = '/Volumes/Macintosh\ HD/.vimfiler'
+endif
+
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_safe_mode_by_default = 0
+noremap <silent> <Leader>e :<C-u>VimFilerBufferDir<CR>
 
 "autocmd FileType vimfiler nnoremap <buffer> / /^\s*\(\|-\\|\|+\\|+\\|-\) \zs
 
