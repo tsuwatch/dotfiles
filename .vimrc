@@ -4,7 +4,6 @@ set modelines=0		" CVE-2007-2438
 set nocompatible	" Use Vim defaults instead of 100% vi compatibility
 set backspace=2		" more powerful backspacing
 
-
 " Edit -------------------
 set tabstop=2
 set smarttab
@@ -105,6 +104,7 @@ NeoBundle 'git://github.com/ujihisa/vimshell-ssh'
 filetype plugin on
 filetype indent on
 
+" neocom ---------------------------------------
 let g:neocomplcache_enable_at_startup = 1 
 " ポップアップメニューで表示される候補の数
 let g:neocomplcache_max_list = 20
@@ -121,34 +121,36 @@ let g:neocomplcache_enable_smart_case = 1
 if !exists('g:neocomplcache_keyword_patterns')
   let g:neocomplcache_keyword_patterns = {}
 endif
-" 日本語を補完候補としない
 let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
-let g:neocomplcache_keyword_patterns['twig'] = '</\?\%([[:alnum:]_:]\+\s*\)\?\%(/\?>\)\?\|&\h\%(\w*:\)\?\|h[[:alnum:]_-]*="\%([^"]*"\?\)\?\|h[[:alnum:]_:-]*'
 
-if !exists('g:neocomplcache_delimiter_patterns')
-  let g:neocomplcache_delimiter_patterns = {}
-endif
-let g:neocomplcache_delimiter_patterns['php'] = ['->', '::', '\']
-
-if !exists('g:neocomplcache_next_keyword_patterns')
-  let g:neocomplcache_next_keyword_patterns = {}
-endif
-let g:neocomplcache_next_keyword_patterns['twig'] = '[[:alnum:]_:-]*>\|[^"]*"'
-
-
-inoremap <expr><CR> neocomplcache#smart_close_popup() . "\<CR>"
-inoremap <expr><TAB> pumvisible() ? "\<Down>" : "\<TAB>"
+inoremap <expr><CR> neocomplcache#close_popup() . "\<CR>"
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<UP>" : "\<S-TAB>"
 inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<BS>"
+inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
 inoremap <expr><C-y> neocomplcache#close_popup()
-inoremap <expr><C-e> pumvisible() ? neocomplcache#cancel_popup() : "\<End>"
+inoremap <expr><C-e> neocomplcache#cancel_popup()
 inoremap <expr><C-g> neocomplcache#undo_completion()
-inoremap <expr><C-n> neocomplcache#manual_keyword_complete()
-inoremap <C-p><UP>
+"inoremap <C-p><UP>
 " 補完候補の共通文字列を補完
 inoremap <expr><C-l> neocomplcache#complete_common_string()
 
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+if !exists('g:neocomplcache_omni_patterns')
+  let g:neocomplcache_omni_patterns = {}
+endif
+let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
+let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
 
 " unite ------------------------
 noremap [unite] <Nop>
