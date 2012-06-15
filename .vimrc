@@ -20,10 +20,22 @@ set showcmd
 set showmatch
 set number
 set title
-syntax on
+syntax enable
 highlight Pmenu ctermbg=4
 highlight PmenuSel ctermbg=1
 highlight PmenuSbar ctermbg=4
+
+" Solarized
+set background=dark
+let g:solarized_termcolors=256
+let g:solarized_degrade=0
+let g:solarized_bold=1
+let g:solarized_underline=1
+let g:solarized_italic=1
+let g:solarized_termtrans=0
+let g:solarized_contrast="high"
+let g:solarized_visibility="high"
+colorscheme solarized
 
 " Searching ----------------
 set ignorecase
@@ -99,6 +111,7 @@ NeoBundle 'git://github.com/thinca/vim-auto_source.git'
 NeoBundle 'git://github.com/thinca/vim-quickrun.git'
 NeoBundle 'git://github.com/h1mesuke/unite-outline.git'
 NeoBundle 'git://github.com/ujihisa/vimshell-ssh'
+NeoBundle 'altercation/vim-colors-solarized'
 
 
 filetype plugin on
