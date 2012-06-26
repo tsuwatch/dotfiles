@@ -6,9 +6,11 @@ set backspace=2		" more powerful backspacing
 
 " Edit -------------------
 set tabstop=2
+set softtabstop=2
 set smarttab
 set expandtab
 set shiftwidth=2
+"set textwidth=80
 set whichwrap=b,s,[,],<,>
 
 " View--------------------
@@ -18,7 +20,7 @@ set showmode
 set showcmd
 " 括弧の対応の報告
 set showmatch
-set number
+"set number
 set title
 syntax enable
 highlight Pmenu ctermbg=4
@@ -28,13 +30,13 @@ highlight PmenuSbar ctermbg=4
 " Solarized
 set background=dark
 let g:solarized_termcolors=256
-let g:solarized_degrade=0
-let g:solarized_bold=1
-let g:solarized_underline=1
-let g:solarized_italic=1
-let g:solarized_termtrans=0
-let g:solarized_contrast="high"
-let g:solarized_visibility="high"
+"let g:solarized_degrade=0
+"let g:solarized_bold=1
+"let g:solarized_underline=1
+"let g:solarized_italic=1
+"let g:solarized_termtrans=0
+"let g:solarized_contrast="normal"
+"let g:solarized_visibility="normal"
 colorscheme solarized
 
 " Searching ----------------
@@ -85,6 +87,8 @@ set laststatus=2
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [ENC=%{&fenc}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 
 
+
+
 " Don't write backup file if vim is being called by "crontab -e"
 au BufWrite /private/tmp/crontab.* set nowritebackup
 " Don't write backup file if vim is being called by "chpass"
@@ -117,12 +121,41 @@ NeoBundle 'altercation/vim-colors-solarized'
 filetype plugin on
 filetype indent on
 
+" Vim-Latex-----------------
+set shellslash
+set grepprg=grep\ -nH\ $*
+let g:tex_flavor='latex'
+
+
+
+let g:Imap_UsePlaceHolders = 1
+let g:Imap_DeleteEmptyPlaceHolders = 1
+let g:Imap_StickyPlaceHolders = 0
+let g:Tex_DefaultTargetFormat = 'pdf'
+let g:Tex_FormatDependency_ps = 'dvi,ps'
+let g:Tex_FormatDependency_pdf = 'dvi,pdf'
+let g:Tex_CompileRule_dvi = '/usr/texbin/platex -synctex=1 -interaction=nonstopmode $*'
+let g:Tex_CompileRule_ps = '/usr/texbin/dvips -Ppdf -o $*.ps $*.dvi'
+let g:Tex_CompileRule_pdf = '/usr/texbin/dvipdfmx $*.dvi'
+let g:Tex_BibtexFlavor = '/usr/texbin/pbibtex'
+"let g:Tex_BibtexFlavor = '/usr/texbin/upbibtex'
+let g:Tex_MakeIndexFlavor = '/usr/texbin/mendex $*.idx'
+let g:Tex_UseEditorSettingInDVIViewer = 1
+"let g:Tex_ViewRule_dvi = '/usr/texbin/pxdvi -watchfile 1 -editor "vim --servername vim-latex -n --remote-silent +\%l \%f"'
+let g:Tex_ViewRule_dvi = '/usr/bin/open -a PictPrinter.app'
+"let g:Tex_ViewRule_dvi = '/usr/bin/open -a Mxdvi.app'
+let g:Tex_ViewRule_ps = '/usr/local/bin/gv --watch'
+let g:Tex_ViewRule_pdf = '/usr/bin/open -a Preview.app'
+"let g:Tex_ViewRule_pdf = '/usr/bin/open -a Skim.app'
+""let g:Tex_ViewRule_pdf = '/usr/bin/open -a TeXShop.app'
+"let g:Tex_ViewRule_pdf = '/usr/bin/open -a TeXworks.app'
+
 " neocom ---------------------------------------
 let g:neocomplcache_enable_at_startup = 1 
 " ポップアップメニューで表示される候補の数
 let g:neocomplcache_max_list = 20
 " 自動補完を行なう入力数
-let g:neocomplcache_auto_completion_start_length = 2
+let g:neocomplcache_auto_completion_start_length = 3
 " 手動補完時に補完を行なう入力数を制限
 let g:neocomplcache_manual_completion_start_length = 3
 " 補完検索時に大文字・小文字を無視する
