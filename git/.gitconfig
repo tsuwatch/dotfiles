@@ -1,0 +1,29 @@
+[core]
+  editor = vim
+  excludesfile = ~/.gitignore
+[user]
+	name = Tomohiro Suwa
+  email = neoen.gsn@gmail.com
+[alias]
+  commit = commit -v
+  st = status
+  co = checkout
+  ci = commit
+  br = branch
+
+  log = log -p
+  l = log
+  log-graph = log --graph --date=short --pretty=format:'%Cgreen%h %cd %Cblue%cn %Creset%s'
+  log-all = log --graph --all --color --pretty='%x09%h %cn%x09%s %Cred%d%Creset'
+
+  di = diff
+  d1 = diff HEAD~
+  d2 = diff HEAD~~
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  interactive = auto
+[github]
+	user = tsuwatch
+  token = db68c61c3d2ca1e45b4ea026fd7c66bd
