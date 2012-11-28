@@ -3,6 +3,7 @@ set modelines=0		" CVE-2007-2438
 " remove change the following statements
 set nocompatible	" Use Vim defaults instead of 100% vi compatibility
 set backspace=2		" more powerful backspacing
+set errorformat=\ \ File\ \"%f\"\\,\ line\ %l,
 
 " Edit -------------------
 set tabstop=2
@@ -20,7 +21,7 @@ set showmode
 set showcmd
 " 括弧の対応の報告
 set showmatch
-"set number
+set number
 set title
 syntax enable
 highlight Pmenu ctermbg=4
@@ -28,7 +29,7 @@ highlight PmenuSel ctermbg=1
 highlight PmenuSbar ctermbg=4
 
 " Solarized
-set background=dark
+set background=light
 let g:solarized_termcolors=256
 "let g:solarized_degrade=0
 "let g:solarized_bold=1
@@ -51,7 +52,7 @@ imap <C-k> <C-m>
 
 " インサートモード、コマンドモード時はEmacsキーバインドを使う
 inoremap <C-a> <Home>
-"inoremap <C-e> <End>
+inoremap <C-e> <End>
 inoremap <C-b> <Left>
 inoremap <C-f> <Right>
 "inoremap <C-n> <Down>
@@ -75,7 +76,7 @@ noremap l <Right>
 
 " AutoCommnad --------------
 set autoindent smartindent
-set autochdir
+"set autochdir
 
 
 set encoding=utf-8
@@ -110,12 +111,19 @@ NeoBundle 'git://github.com/Shougo/vim-vcs.git'
 NeoBundle 'git://github.com/Shougo/vimfiler.git'
 NeoBundle 'git://github.com/Shougo/vimshell.git'
 NeoBundle 'git://github.com/Shougo/vinarise.git'
-NeoBundle 'git://github.com/Shougo/vimproc.git'
+NeoBundle 'Shougo/vimproc', {
+      \ 'build' : {
+      \     'mac' : 'make -f make_mac.mak',
+      \     'unix' : 'make -f make_unix.mak',
+      \    },
+      \ }
 NeoBundle 'git://github.com/thinca/vim-auto_source.git'
 NeoBundle 'git://github.com/thinca/vim-quickrun.git'
 NeoBundle 'git://github.com/h1mesuke/unite-outline.git'
 NeoBundle 'git://github.com/ujihisa/vimshell-ssh'
 NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'git://github.com/mattn/zencoding-vim'
+NeoBundle 'git://github.com/Shougo/neosnippet'
 
 
 filetype plugin on
@@ -133,6 +141,7 @@ let g:Imap_DeleteEmptyPlaceHolders = 1
 let g:Imap_StickyPlaceHolders = 0
 let g:Tex_DefaultTargetFormat = 'pdf'
 let g:Tex_FormatDependency_ps = 'dvi,ps'
+
 let g:Tex_FormatDependency_pdf = 'dvi,pdf'
 let g:Tex_CompileRule_dvi = '/usr/texbin/platex -synctex=1 -interaction=nonstopmode $*'
 let g:Tex_CompileRule_ps = '/usr/texbin/dvips -Ppdf -o $*.ps $*.dvi'
@@ -155,13 +164,13 @@ let g:neocomplcache_enable_at_startup = 1
 " ポップアップメニューで表示される候補の数
 let g:neocomplcache_max_list = 20
 " 自動補完を行なう入力数
-let g:neocomplcache_auto_completion_start_length = 3
+let g:neocomplcache_auto_completion_start_length = 2
 " 手動補完時に補完を行なう入力数を制限
 let g:neocomplcache_manual_completion_start_length = 3
 " 補完検索時に大文字・小文字を無視する
 let g:neocomplcache_enable_ignore_case= 1
 " 大文字が入力されている場合、大文字・小文字を区別する
-let g:neocomplcache_enable_smart_case = 1
+let g:neocomplcache_enable_smart_case = 1   
 
 " 補完するためのキーワードパターンを指定
 if !exists('g:neocomplcache_keyword_patterns')
@@ -169,17 +178,17 @@ if !exists('g:neocomplcache_keyword_patterns')
 endif
 let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
 
-inoremap <expr><CR> neocomplcache#close_popup() . "\<CR>"
+"inoremap <expr><CR> neocomplcache#close_popup() . "\<CR>"
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "\<UP>" : "\<S-TAB>"
-inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-inoremap <expr><C-y> neocomplcache#close_popup()
-inoremap <expr><C-e> neocomplcache#cancel_popup()
-inoremap <expr><C-g> neocomplcache#undo_completion()
+"inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
+"inoremap <expr><C-y> neocomplcache#close_popup()
+"inoremap <expr><C-e> neocomplcache#cancel_popup()
+"inoremap <expr><C-g> neocomplcache#undo_completion()
 "inoremap <C-p><UP>
 " 補完候補の共通文字列を補完
-inoremap <expr><C-l> neocomplcache#complete_common_string()
+"inoremap <expr><C-l> neocomplcache#complete_common_string()
 
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
