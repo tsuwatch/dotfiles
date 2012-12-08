@@ -55,12 +55,22 @@ inoremap <C-a> <Home>
 inoremap <C-e> <End>
 inoremap <C-b> <Left>
 inoremap <C-f> <Right>
-"inoremap <C-n> <Down>
-"inoremap <C-p> <Up>
-"cnoremap <C-b> <Left>
-"cnoremap <C-f> <Right>
 inoremap <C-h> <BS>
 inoremap <C-d> <Del>
+
+" insertモードから抜ける
+inoremap <silent> jj <ESC>
+inoremap <silent> kk <ESC>
+
+" 行頭・行末移動方向をキーの相対位置にあわせる
+nnoremap 0 $
+nnoremap 1 0
+
+" 挿入モードでのカーソル移動
+inoremap <C-j> <Down>
+inoremap <C-k> <Up>
+inoremap <C-h> <Left>
+inoremap <C-l> <Right>
 
 " スペースを押した時、中心を保ってスクロール
 noremap <Space> jzz
@@ -72,6 +82,13 @@ noremap h <Left>
 noremap j gj
 noremap k gk
 noremap l <Right>
+
+inoremap { {}<Left>
+inoremap [ []<Left>
+inoremap ( ()<Left>
+inoremap " ""<Left>
+inoremap ' ''<Left>
+inoremap < <><Left>
 
 
 " AutoCommnad --------------
