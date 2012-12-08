@@ -7,6 +7,9 @@
 export LANG=ja_JP.UTF-8
 export EDITOR='subl -w'
 
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
 
 ## Default shell configuration
 #
@@ -30,6 +33,7 @@ setopt auto_pushd
 # command correct edition before each completion attempt
 #
 setopt correct
+SPROMPT="%r? べ、別にあんたのために修正してるんじゃないだからね！[n,y,a,e]:"
 
 # compacked complete list display
 #
@@ -183,3 +187,32 @@ esac
 ## load user .zshrc configuration file
 #
 [ -f ~/.zshrc.mine ] && source ~/.zshrc.mine
+
+# url: $1, delimiter: $2, prefix: $3, words: $4..
+function web_search {
+  local url=$1      && shift
+  local delimiter=$1&& shift
+  local prefix=$1   && shift
+  local query
+
+  while [ -n "$1" ]; do
+    if [ -n "$query" ]; then
+      query="${query}${delimiter}${prefix}$1"
+    else
+      query="${prefix}$1"
+    fi
+      shift
+  done
+
+  open "${url}${query}"
+}
+
+function qiita () {
+  web_search "http://qiita.com/search?utf8=✓&q=" "+" "" $*
+}
+function google () {
+  web_search "https://www.google.co.jp/search?&q=" "+" "" $*
+}
+function phpm () {
+  web_search "http://jp2.php.net/manual-lookup.php?lang=ja&pattern=" "+" "" $*
+}
