@@ -4,6 +4,7 @@ set modelines=0		" CVE-2007-2438
 set nocompatible	" Use Vim defaults instead of 100% vi compatibility
 set backspace=2		" more powerful backspacing
 set errorformat=\ \ File\ \"%f\"\\,\ line\ %l,
+set t_Co=256
 
 " Edit -------------------
 set tabstop=2
