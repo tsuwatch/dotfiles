@@ -2,18 +2,24 @@ set modelines=0		" CVE-2007-2438
 " Normally we use vim-extensions. If you want true vi-compatibility
 " remove change the following statements
 set nocompatible	" Use Vim defaults instead of 100% vi compatibility
-set backspace=2		" more powerful backspacing
 set errorformat=\ \ File\ \"%f\"\\,\ line\ %l,
 set t_Co=256
+syntax enable
+set encoding=utf-8
+set showtabline=2
 
-" Edit -------------------
-set tabstop=2
-set softtabstop=2
-set smarttab
-set expandtab
-set shiftwidth=2
-"set textwidth=80
-set whichwrap=b,s,[,],<,>
+
+" File ------------------
+"set autoread
+set noswapfile
+
+" Indent ----------------
+set autoindent smartindent
+set tabstop=2 shiftwidth=2 softtabstop=0
+
+" Edit ------------------
+set whichwrap=b,s,h,l,[,],<,>
+set backspace=2		" more powerful backspacing
 
 " View--------------------
 " 現在のモードを表示
@@ -23,34 +29,27 @@ set showcmd
 " 括弧の対応の報告
 set showmatch
 set number
+set list
+set listchars=tab:>-,trail:-,extends:>,precedes:<
 set title
-syntax enable
+set scrolloff=5
 highlight Pmenu ctermbg=4
 highlight PmenuSel ctermbg=1
 highlight PmenuSbar ctermbg=4
 
 " Solarized
-set background=light
 let g:solarized_termcolors=256
-"let g:solarized_degrade=0
-"let g:solarized_bold=1
-"let g:solarized_underline=1
-"let g:solarized_italic=1
-"let g:solarized_termtrans=0
-"let g:solarized_contrast="normal"
-"let g:solarized_visibility="normal"
+set background=light
 colorscheme solarized
 
 " Searching ----------------
 set ignorecase
 set wrapscan
+set smartcase
 set incsearch
 set hlsearch
 
 " Mapping ------------------
-imap <C-j> <C-[>
-imap <C-k> <C-m>
-
 " インサートモード、コマンドモード時はEmacsキーバインドを使う
 inoremap <C-a> <Home>
 inoremap <C-e> <End>
@@ -73,40 +72,22 @@ inoremap <C-k> <Up>
 inoremap <C-h> <Left>
 inoremap <C-l> <Right>
 
-" スペースを押した時、中心を保ってスクロール
-noremap <Space> jzz
-noremap <S-Space> kzz
-
-noremap <Down> gj
-noremap <Up> gk
-noremap h <Left>
-noremap j gj
-noremap k gk
-noremap l <Right>
-
-inoremap { {}<Left>
-inoremap [ []<Left>
-inoremap ( ()<Left>
-inoremap " ""<Left>
-inoremap ' ''<Left>
-inoremap < <><Left>
-
-
-" AutoCommnad --------------
-set autoindent smartindent
-"set autochdir
-
-
-set encoding=utf-8
-
-set showtabline=2
+" search -------------------
+nnoremap <Esc><Esc> :nohlsearch<CR>
+nnoremap n nzz
+nnoremap N Nzz
+nnoremap * *zz
+nnoremap # #zz
 
 " ステータス行の設定--------
 set laststatus=2
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [ENC=%{&fenc}]\ [TYPE=%Y]\ [ASCII=\%03.3b]\ [HEX=\%02.2B]\ [POS=%04l,%04v][%p%%]\ [LEN=%L]
 
-
-
+" prefix -------------------
+nnoremap [prefix] <nop>
+nmap <Space> [prefix]
+nnoremap [subprefix] <nop>
+nmap , [subprefix]
 
 " Don't write backup file if vim is being called by "crontab -e"
 au BufWrite /private/tmp/crontab.* set nowritebackup
@@ -152,8 +133,6 @@ set shellslash
 set grepprg=grep\ -nH\ $*
 let g:tex_flavor='latex'
 
-
-
 let g:Imap_UsePlaceHolders = 1
 let g:Imap_DeleteEmptyPlaceHolders = 1
 let g:Imap_StickyPlaceHolders = 0
@@ -178,72 +157,34 @@ let g:Tex_ViewRule_pdf = '/usr/bin/open -a Preview.app'
 "let g:Tex_ViewRule_pdf = '/usr/bin/open -a TeXworks.app'
 
 " neocom ---------------------------------------
-let g:neocomplcache_enable_at_startup = 1 
+let g:neocomplcache_enable_at_startup = 1
 " ポップアップメニューで表示される候補の数
-let g:neocomplcache_max_list = 20
-" 自動補完を行なう入力数
-let g:neocomplcache_auto_completion_start_length = 2
-" 手動補完時に補完を行なう入力数を制限
-let g:neocomplcache_manual_completion_start_length = 3
+let g:neocomplcache_max_list = 1000
 " 補完検索時に大文字・小文字を無視する
 let g:neocomplcache_enable_ignore_case= 1
 " 大文字が入力されている場合、大文字・小文字を区別する
-let g:neocomplcache_enable_smart_case = 1   
+let g:neocomplcache_enable_smart_case = 1
 
-" 補完するためのキーワードパターンを指定
-if !exists('g:neocomplcache_keyword_patterns')
-  let g:neocomplcache_keyword_patterns = {}
-endif
-let g:neocomplcache_keyword_patterns['default'] = '\h\w*'
+inoremap <expr><TAB> pumvisible() ? "<C-n>" : "<TAB>"
+inoremap <expr><S-TAB> pumvisible() ? "<C-p>" : "<S-TAB>"
+inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "<CR>"
 
-"inoremap <expr><CR> neocomplcache#close_popup() . "\<CR>"
-inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "\<UP>" : "\<S-TAB>"
-"inoremap <expr><C-h> neocomplcache#smart_close_popup()."\<C-h>"
-"inoremap <expr><BS> neocomplcache#smart_close_popup()."\<C-h>"
-"inoremap <expr><C-y> neocomplcache#close_popup()
-"inoremap <expr><C-e> neocomplcache#cancel_popup()
-"inoremap <expr><C-g> neocomplcache#undo_completion()
-"inoremap <C-p><UP>
-" 補完候補の共通文字列を補完
-"inoremap <expr><C-l> neocomplcache#complete_common_string()
-
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
-if !exists('g:neocomplcache_omni_patterns')
-  let g:neocomplcache_omni_patterns = {}
-endif
-let g:neocomplcache_omni_patterns.ruby = '[^. *\t]\.h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
-let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
-
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
 
 " unite ------------------------
-noremap [unite] <Nop>
-nmap <Space>f [unite]
+nnoremap [unite] <nop>
+nmap <space> [unite]
 
-let g:unite_enable_start_insert = 0
-
+let g:unite_source_history_yank_enable = 1
 let g:unite_source_bookmark_directory = $HOME . '/.unite/bookmark'
-" 現在開いているファイルのディレクトリ下のファイル一覧
-noremap <silent> [unite]f :<C-u>UniteWithBufferDir -buffer-name=files file<CR>
-" バッファ一覧
-noremap <silent> [unite]b :<C-u>Unite buffer<CR>
-" レジスタ一覧
-noremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
-" ファイル閲覧履歴
-noremap <silent> [unite]m :<C-u>Unite file_mru<CR>
-" ブックマーク一覧
-noremap <silent> [unite]c :<C-u>Unite bookmark<CR>
-" ブックマークに追加
-noremap <silent> [unite]a :<C-u>UniteBookmarkAdd<CR>
+
+nnoremap <silent> [unite]b :Unite buffer<CR>
+nnoremap <silent> [unite]t :Unite tab<CR>
+nnoremap <silent> [unite]w :Unite window<CR>
+nnoremap <silent> [unite]g :Unite grep<CR>
+nnoremap <silent> [unite]o :Unite outline<CR>
+nnoremap <silent> [unite]s :Unite snippet<CR>
+nnoremap <silent> [unite]y :Unite history/yank<CR>
+
 " uniteを開いている間のキーマッピング
 augroup vimrc
   autocmd FileType unite call s:unite_my_settings()
@@ -267,9 +208,37 @@ endif
 
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
-noremap <silent> <Leader>e :<C-u>VimFilerBufferDir<CR>
 
-"autocmd FileType vimfiler nnoremap <buffer> / /^\s*\(\|-\\|\|+\\|+\\|-\) \zs
+autocmd! FileType vimfiler call g:my_vimfiler_settings()
+function! g:my_vimfiler_settings()
+  nnoremap <buffer>s :call vimfiler#mappings#do_action('my_split')<CR>
+  nnoremap <buffer>v :call vimfiler#mappings#do_action('my_vsplit')<CR>
+endfunction
 
+let my_action = { 'is_selectable' : 1 }
+function! my_action.func(candidates)
+  wincmd p
+  exec 'split '. a:candidates[0].action__path
+endfunction
+call unite#custom_action('file', 'my_split', my_action)
+
+let my_action = { 'is_selectable' : 1 }
+function! my_action.func(candidates)
+  wincmd p
+  exec 'vsplit '. a:candidates[0].action__path
+endfunction
+call unite#custom_action('file', 'my_vsplit', my_action)
+
+" key bindings ----------------
+nnoremap <silent> [subprefix]f :VimFiler -buffer-name=explorer -split -winwidth=45 -toggle -no-quit<CR>
+
+" vimshell --------------------
+let g:vimshell_interactive_update_time = 10
+call unite#custom_default_action('vimshell/history', 'insert')
+
+" key mapping -----------------
+nnoremap <silent> vs :VimShell<CR>
+nnoremap <silent> vsc :VimShellCreate<CR>
+nnoremap <silent> vp :VimShellPop<CR>
 
 let twitvim_count = 40
