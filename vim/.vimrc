@@ -240,5 +240,6 @@ call unite#custom_default_action('vimshell/history', 'insert')
 nnoremap <silent> vs :VimShell<CR>
 nnoremap <silent> vsc :VimShellCreate<CR>
 nnoremap <silent> vp :VimShellPop<CR>
+nnoremap <silent> <Leader>fi :<C-u>VimFilerBufferDir -split -simple -winwidth=35 -no-quit<CR>
 
 let twitvim_count = 40
