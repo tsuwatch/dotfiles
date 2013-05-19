@@ -8,6 +8,8 @@ export LANG=ja_JP.UTF-8
 export EDITOR='subl -w'
 
 export PATH="$HOME/.rbenv/bin:$PATH"
+export PATH="$HOME/.nodebrew/current/bin:$PATH"
+export PATH="/usr/local/share/npm/bin:$PATH"
 eval "$(rbenv init -)"
 
 
