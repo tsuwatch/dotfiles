@@ -47,156 +47,156 @@ zstyle ':vcs_info:bzr:*' use-simple true
 
 
 if is-at-least 4.3.10; then
-    # git 用のフォーマット
-    # git のときはステージしているかどうかを表示
-    zstyle ':vcs_info:git:*' formats '(%s)-[%b]' '%c%u %m'
-    zstyle ':vcs_info:git:*' actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
-    zstyle ':vcs_info:git:*' check-for-changes true
-    zstyle ':vcs_info:git:*' stagedstr "+"    # %c で表示する文字列
-    zstyle ':vcs_info:git:*' unstagedstr "-"  # %u で表示する文字列
+	# git 用のフォーマット
+	# git のときはステージしているかどうかを表示
+	zstyle ':vcs_info:git:*' formats '(%s)-[%b]' '%c%u %m'
+	zstyle ':vcs_info:git:*' actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
+	zstyle ':vcs_info:git:*' check-for-changes true
+	zstyle ':vcs_info:git:*' stagedstr "+"    # %c で表示する文字列
+	zstyle ':vcs_info:git:*' unstagedstr "-"  # %u で表示する文字列
 fi
 
 # hooks 設定
 if is-at-least 4.3.11; then
-    # git のときはフック関数を設定する
+	# git のときはフック関数を設定する
 
-    # formats '(%s)-[%b]' '%c%u %m' , actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
-    # のメッセージを設定する直前のフック関数
-    # 今回の設定の場合はformat の時は2つ, actionformats の時は3つメッセージがあるので
-    # 各関数が最大3回呼び出される。
-    zstyle ':vcs_info:git+set-message:*' hooks \
-                                            git-hook-begin \
-                                            git-untracked \
-                                            git-push-status \
-                                            git-nomerge-branch \
-                                            git-stash-count
+	# formats '(%s)-[%b]' '%c%u %m' , actionformats '(%s)-[%b]' '%c%u %m' '<!%a>'
+	# のメッセージを設定する直前のフック関数
+	# 今回の設定の場合はformat の時は2つ, actionformats の時は3つメッセージがあるので
+	# 各関数が最大3回呼び出される。
+	zstyle ':vcs_info:git+set-message:*' hooks \
+		git-hook-begin \
+		git-untracked \
+		git-push-status \
+		git-nomerge-branch \
+		git-stash-count
 
-    # フックの最初の関数
-    # git の作業コピーのあるディレクトリのみフック関数を呼び出すようにする
-    # (.git ディレクトリ内にいるときは呼び出さない)
-    # .git ディレクトリ内では git status --porcelain などがエラーになるため
-    function +vi-git-hook-begin() {
-        if [[ $(command git rev-parse --is-inside-work-tree 2> /dev/null) != 'true' ]]; then
-            # 0以外を返すとそれ以降のフック関数は呼び出されない
-            return 1
-        fi
+	# フックの最初の関数
+	# git の作業コピーのあるディレクトリのみフック関数を呼び出すようにする
+	# (.git ディレクトリ内にいるときは呼び出さない)
+	# .git ディレクトリ内では git status --porcelain などがエラーになるため
+	function +vi-git-hook-begin() {
+	if [[ $(command git rev-parse --is-inside-work-tree 2> /dev/null) != 'true' ]]; then
+		# 0以外を返すとそれ以降のフック関数は呼び出されない
+		return 1
+	fi
 
-        return 0
-    }
+	return 0
+}
 
-    # untracked フィアル表示
-    #
-    # untracked ファイル(バージョン管理されていないファイル)がある場合は
-    # unstaged (%u) に ? を表示
-    function +vi-git-untracked() {
-        # zstyle formats, actionformats の2番目のメッセージのみ対象にする
-        if [[ "$1" != "1" ]]; then
-            return 0
-        fi
+# untracked フィアル表示
+#
+# untracked ファイル(バージョン管理されていないファイル)がある場合は
+# unstaged (%u) に ? を表示
+function +vi-git-untracked() {
+# zstyle formats, actionformats の2番目のメッセージのみ対象にする
+if [[ "$1" != "1" ]]; then
+	return 0
+fi
 
-        if command git status --porcelain 2> /dev/null \
-            | awk '{print $1}' \
-            | command grep -F '??' > /dev/null 2>&1 ; then
+if command git status --porcelain 2> /dev/null \
+	| awk '{print $1}' \
+	| command grep -F '??' > /dev/null 2>&1 ; then
 
-            # unstaged (%u) に追加
-            hook_com[unstaged]+='?'
-        fi
-    }
+# unstaged (%u) に追加
+hook_com[unstaged]+='?'
+				fi
+			}
 
-    # push していないコミットの件数表示
-    #
-    # リモートリポジトリに push していないコミットの件数を
-    # pN という形式で misc (%m) に表示する
-    function +vi-git-push-status() {
-        # zstyle formats, actionformats の2番目のメッセージのみ対象にする
-        if [[ "$1" != "1" ]]; then
-            return 0
-        fi
+			# push していないコミットの件数表示
+			#
+			# リモートリポジトリに push していないコミットの件数を
+			# pN という形式で misc (%m) に表示する
+			function +vi-git-push-status() {
+			# zstyle formats, actionformats の2番目のメッセージのみ対象にする
+			if [[ "$1" != "1" ]]; then
+				return 0
+			fi
 
-        if [[ "${hook_com[branch]}" != "master" ]]; then
-            # master ブランチでない場合は何もしない
-            return 0
-        fi
+			if [[ "${hook_com[branch]}" != "master" ]]; then
+				# master ブランチでない場合は何もしない
+				return 0
+			fi
 
-        # push していないコミット数を取得する
-        local ahead
-        ahead=$(command git rev-list origin/master..master 2>/dev/null \
-            | wc -l \
-            | tr -d ' ')
+			# push していないコミット数を取得する
+			local ahead
+			ahead=$(command git rev-list origin/master..master 2>/dev/null \
+				| wc -l \
+				| tr -d ' ')
 
-        if [[ "$ahead" -gt 0 ]]; then
-            # misc (%m) に追加
-            hook_com[misc]+="(p${ahead})"
-        fi
-    }
+			if [[ "$ahead" -gt 0 ]]; then
+				# misc (%m) に追加
+				hook_com[misc]+="(p${ahead})"
+			fi
+		}
 
-    # マージしていない件数表示
-    #
-    # master 以外のブランチにいる場合に、
-    # 現在のブランチ上でまだ master にマージしていないコミットの件数を
-    # (mN) という形式で misc (%m) に表示
-    function +vi-git-nomerge-branch() {
-        # zstyle formats, actionformats の2番目のメッセージのみ対象にする
-        if [[ "$1" != "1" ]]; then
-            return 0
-        fi
+		# マージしていない件数表示
+		#
+		# master 以外のブランチにいる場合に、
+		# 現在のブランチ上でまだ master にマージしていないコミットの件数を
+		# (mN) という形式で misc (%m) に表示
+		function +vi-git-nomerge-branch() {
+		# zstyle formats, actionformats の2番目のメッセージのみ対象にする
+		if [[ "$1" != "1" ]]; then
+			return 0
+		fi
 
-        if [[ "${hook_com[branch]}" == "master" ]]; then
-            # master ブランチの場合は何もしない
-            return 0
-        fi
+		if [[ "${hook_com[branch]}" == "master" ]]; then
+			# master ブランチの場合は何もしない
+			return 0
+		fi
 
-        local nomerged
-        nomerged=$(command git rev-list master..${hook_com[branch]} 2>/dev/null | wc -l | tr -d ' ')
+		local nomerged
+		nomerged=$(command git rev-list master..${hook_com[branch]} 2>/dev/null | wc -l | tr -d ' ')
 
-        if [[ "$nomerged" -gt 0 ]] ; then
-            # misc (%m) に追加
-            hook_com[misc]+="(m${nomerged})"
-        fi
-    }
+		if [[ "$nomerged" -gt 0 ]] ; then
+			# misc (%m) に追加
+			hook_com[misc]+="(m${nomerged})"
+		fi
+	}
 
 
-    # stash 件数表示
-    #
-    # stash している場合は :SN という形式で misc (%m) に表示
-    function +vi-git-stash-count() {
-        # zstyle formats, actionformats の2番目のメッセージのみ対象にする
-        if [[ "$1" != "1" ]]; then
-            return 0
-        fi
+	# stash 件数表示
+	#
+	# stash している場合は :SN という形式で misc (%m) に表示
+	function +vi-git-stash-count() {
+	# zstyle formats, actionformats の2番目のメッセージのみ対象にする
+	if [[ "$1" != "1" ]]; then
+		return 0
+	fi
 
-        local stash
-        stash=$(command git stash list 2>/dev/null | wc -l | tr -d ' ')
-        if [[ "${stash}" -gt 0 ]]; then
-            # misc (%m) に追加
-            hook_com[misc]+=":S${stash}"
-        fi
-    }
+	local stash
+	stash=$(command git stash list 2>/dev/null | wc -l | tr -d ' ')
+	if [[ "${stash}" -gt 0 ]]; then
+		# misc (%m) に追加
+		hook_com[misc]+=":S${stash}"
+	fi
+}
 
 fi
 
 function _update_vcs_info_msg() {
-    local -a messages
-    local prompt
+local -a messages
+local prompt
 
-    LANG=en_US.UTF-8 vcs_info
+LANG=en_US.UTF-8 vcs_info
 
-    if [[ -z ${vcs_info_msg_0_} ]]; then
-        # vcs_info で何も取得していない場合はプロンプトを表示しない
-        prompt=""
-    else
-        # vcs_info で情報を取得した場合
-        # $vcs_info_msg_0_ , $vcs_info_msg_1_ , $vcs_info_msg_2_ を
-        # それぞれ緑、黄色、赤で表示する
-        [[ -n "$vcs_info_msg_0_" ]] && messages+=( "%F{green}${vcs_info_msg_0_}%f" )
-        [[ -n "$vcs_info_msg_1_" ]] && messages+=( "%F{yellow}${vcs_info_msg_1_}%f" )
-        [[ -n "$vcs_info_msg_2_" ]] && messages+=( "%F{red}${vcs_info_msg_2_}%f" )
+if [[ -z ${vcs_info_msg_0_} ]]; then
+	# vcs_info で何も取得していない場合はプロンプトを表示しない
+	prompt=""
+else
+	# vcs_info で情報を取得した場合
+	# $vcs_info_msg_0_ , $vcs_info_msg_1_ , $vcs_info_msg_2_ を
+	# それぞれ緑、黄色、赤で表示する
+	[[ -n "$vcs_info_msg_0_" ]] && messages+=( "%F{green}${vcs_info_msg_0_}%f" )
+	[[ -n "$vcs_info_msg_1_" ]] && messages+=( "%F{yellow}${vcs_info_msg_1_}%f" )
+	[[ -n "$vcs_info_msg_2_" ]] && messages+=( "%F{red}${vcs_info_msg_2_}%f" )
 
-        # 間にスペースを入れて連結する
-        prompt="${(j: :)messages}"
-    fi
+	# 間にスペースを入れて連結する
+	prompt="${(j: :)messages}"
+fi
 
-    RPROMPT="$prompt"
+RPROMPT="$prompt"
 }
 add-zsh-hook precmd _update_vcs_info_msg
 
@@ -288,12 +288,12 @@ alias where="command -v"
 alias j="jobs -l"
 
 case "${OSTYPE}" in
-  freebsd*|darwin*)
-    alias ls="ls -G -w"
-    ;;
-  linux*)
-    alias ls="ls --color"
-    ;;
+	freebsd*|darwin*)
+		alias ls="ls -G -w"
+		;;
+	linux*)
+		alias ls="ls --color"
+		;;
 esac
 
 alias la="ls -la"
@@ -307,29 +307,29 @@ alias su="su -l"
 alias rm="rm -i"
 
 case "${OSTYPE}" in
-  darwin*)
-    alias updateports="sudo port selfupdate; sudo port outdated"
-    alias portupgrade="sudo port upgrade installed"
-    ;;
-  freebsd*)
-    case ${UID} in
-      0)
-        updateports() 
-        {
-          if [ -f /usr/ports/.portsnap.INDEX ]
-          then
-            portsnap fetch update
-          else
-            portsnap fetch extract update
-          fi
-          (cd /usr/ports/; make index)
+	darwin*)
+		alias updateports="sudo port selfupdate; sudo port outdated"
+		alias portupgrade="sudo port upgrade installed"
+		;;
+	freebsd*)
+		case ${UID} in
+			0)
+				updateports() 
+				{
+					if [ -f /usr/ports/.portsnap.INDEX ]
+					then
+						portsnap fetch update
+					else
+						portsnap fetch extract update
+					fi
+					(cd /usr/ports/; make index)
 
-          portversion -v -l \<
-        }
-        alias appsupgrade='pkgdb -F && BATCH=YES NO_CHECKSUM=YES portupgrade -a'
-        ;;
-    esac
-    ;;
+					portversion -v -l \<
+				}
+				alias appsupgrade='pkgdb -F && BATCH=YES NO_CHECKSUM=YES portupgrade -a'
+				;;
+		esac
+		;;
 esac
 
 
@@ -337,35 +337,35 @@ esac
 #
 unset LSCOLORS
 case "${TERM}" in
-  xterm)
-    export TERM=xterm-color
-    ;;
-  kterm)
-    export TERM=kterm-color
-    # set BackSpace control character
-    stty erase
-    ;;
-  cons25)
-    unset LANG
-    export LSCOLORS=ExFxCxdxBxegedabagacad
-    export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-    zstyle ':completion:*' list-colors \
-      'di=;34;1' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=46;34' 'cd=43;34'
-    ;;
+	xterm)
+		export TERM=xterm-color
+		;;
+	kterm)
+		export TERM=kterm-color
+		# set BackSpace control character
+		stty erase
+		;;
+	cons25)
+		unset LANG
+		export LSCOLORS=ExFxCxdxBxegedabagacad
+		export LS_COLORS='di=01;34:ln=01;35:so=01;32:ex=01;31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+		zstyle ':completion:*' list-colors \
+			'di=;34;1' 'ln=;35;1' 'so=;32;1' 'ex=31;1' 'bd=46;34' 'cd=43;34'
+		;;
 esac
 
 # set terminal title including current directory
 #
 case "${TERM}" in
-  kterm*|xterm*)
-    precmd() {
-      echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
-    }
-    export LSCOLORS=exfxcxdxbxegedabagacad
-    export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
-    zstyle ':completion:*' list-colors \
-      'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
-    ;;
+	kterm*|xterm*)
+		precmd() {
+			echo -ne "\033]0;${USER}@${HOST%%.*}:${PWD}\007"
+		}
+		export LSCOLORS=exfxcxdxbxegedabagacad
+		export LS_COLORS='di=34:ln=35:so=32:pi=33:ex=31:bd=46;34:cd=43;34:su=41;30:sg=46;30:tw=42;30:ow=43;30'
+		zstyle ':completion:*' list-colors \
+			'di=34' 'ln=35' 'so=32' 'ex=31' 'bd=46;34' 'cd=43;34'
+		;;
 esac
 
 
@@ -375,29 +375,82 @@ esac
 
 # url: $1, delimiter: $2, prefix: $3, words: $4..
 function web_search {
-  local url=$1      && shift
-  local delimiter=$1&& shift
-  local prefix=$1   && shift
-  local query
+local url=$1      && shift
+local delimiter=$1&& shift
+local prefix=$1   && shift
+local query
 
-  while [ -n "$1" ]; do
-    if [ -n "$query" ]; then
-      query="${query}${delimiter}${prefix}$1"
-    else
-      query="${prefix}$1"
-    fi
-      shift
-  done
+while [ -n "$1" ]; do
+	if [ -n "$query" ]; then
+		query="${query}${delimiter}${prefix}$1"
+	else
+		query="${prefix}$1"
+	fi
+	shift
+done
 
-  open "${url}${query}"
+open "${url}${query}"
 }
 
 function qiita () {
-  web_search "http://qiita.com/search?utf8=✓&q=" "+" "" $*
+web_search "http://qiita.com/search?utf8=✓&q=" "+" "" $*
 }
 function google () {
-  web_search "https://www.google.co.jp/search?&q=" "+" "" $*
+web_search "https://www.google.co.jp/search?&q=" "+" "" $*
 }
 function phpm () {
-  web_search "http://jp2.php.net/manual-lookup.php?lang=ja&pattern=" "+" "" $*
+web_search "http://jp2.php.net/manual-lookup.php?lang=ja&pattern=" "+" "" $*
+}
+
+function do_enter () {
+if [ -n "$BUFFER" ]; then
+	zle accept-line
+	return 0
+fi
+echo
+ls_abbrev
+if [ "$(git rev-parse --is-inside-work-tree 2> /dev/null)" = 'true' ]; then
+	echo
+	echo -e "\e[0;33m-- git status --\e[0m"
+	git status -sb
+fi
+zle reset-prompt
+return 0
+}
+zle -N do_enter
+bindkey '^m' do_enter
+chpwd() {
+	ls_abbrev
+}
+ls_abbrev() {
+	# -a : Do not ignore entries starting with ..
+	# -C : Force multi-column output.
+	# -F : Append indicator (one of */=>@|) to entries.
+	local cmd_ls='ls'
+	local -a opt_ls
+	opt_ls=('-aCF' '--color=always')
+	case "${OSTYPE}" in
+		freebsd*|darwin*)
+			if type gls > /dev/null 2>&1; then
+				cmd_ls='gls'
+			else
+				# -G : Enable colorized output.
+				opt_ls=('-aCFG')
+			fi
+			;;
+	esac
+
+	local ls_result
+	ls_result=$(CLICOLOR_FORCE=1 COLUMNS=$COLUMNS command $cmd_ls ${opt_ls[@]} | sed $'/^\e\[[0-9;]*m$/d')
+
+	local ls_lines=$(echo "$ls_result" | wc -l | tr -d ' ')
+
+	if [ $ls_lines -gt 10 ]; then
+		echo "$ls_result" | head -n 5
+		echo '...'
+		echo "$ls_result" | tail -n 5
+		echo "$(command ls -1 -A | wc -l | tr -d ' ') files exist"
+	else
+		echo "$ls_result"
+	fi
 }
