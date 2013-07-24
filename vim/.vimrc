@@ -38,8 +38,8 @@ highlight PmenuSel ctermbg=1
 highlight PmenuSbar ctermbg=4
 
 " Solarized
-let g:solarized_termcolors=256
-set background=light
+"let g:solarized_termcolors=256
+set background=dark
 colorscheme solarized
 
 " Searching ----------------
@@ -178,6 +178,9 @@ let g:unite_source_history_yank_enable = 1
 let g:unite_source_bookmark_directory = $HOME . '/.unite/bookmark'
 
 nnoremap <silent> [unite]b :Unite buffer<CR>
+nnoremap <silent> [unite]f :Unite file<CR>
+nnoremap <silent> [unite]m :Unite file_mru<CR>
+nnoremap <silent> [unite]d :UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [unite]t :Unite tab<CR>
 nnoremap <silent> [unite]w :Unite window<CR>
 nnoremap <silent> [unite]g :Unite grep<CR>
