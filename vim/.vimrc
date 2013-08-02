@@ -30,7 +30,7 @@ set showcmd
 set showmatch
 set number
 set list
-set listchars=tab:>-,trail:-,extends:>,precedes:<
+set listchars=eol:¬,tab:▸\ 
 set title
 set scrolloff=5
 highlight Pmenu ctermbg=4
