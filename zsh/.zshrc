@@ -18,13 +18,13 @@ eval "$(rbenv init -)"
 # set prompt
 #
 #
-PROMPT="tsuwatch%% "
-RPROMPT="%{$fg_bold[white]%}[%{$reset_color%}%{$fg[cyan]%}%~%{$reset_color%}%{$fg_bold[white]%}]%{$reset_color%}"
-SPROMPT="%{$fg_bold[red]%}correct%{$reset_color%}: %R -> %r ? "
+#PROMPT="tsuwatch%% "
+#RPROMPT="%{$fg_bold[white]%}[%{$reset_color%}%{$fg[cyan]%}%~%{$reset_color%}%{$fg_bold[white]%}]%{$reset_color%}"
+#SPROMPT="%{$fg_bold[red]%}correct%{$reset_color%}: %R -> %r ? "
 autoload colors
 colors
 
-RPROMPT=""
+#RPROMPT=""
 
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
@@ -184,6 +184,7 @@ LANG=en_US.UTF-8 vcs_info
 if [[ -z ${vcs_info_msg_0_} ]]; then
 	# vcs_info で何も取得していない場合はプロンプトを表示しない
 	prompt=""
+
 else
 	# vcs_info で情報を取得した場合
 	# $vcs_info_msg_0_ , $vcs_info_msg_1_ , $vcs_info_msg_2_ を
@@ -198,6 +199,11 @@ fi
 
 RPROMPT="$prompt"
 }
+PROMPT="
+ %{${fg[yellow]}%}%~%{${reset_color}%} 
+ [%m]$ "
+
+PROMPT2='[%m]> ' 
 add-zsh-hook precmd _update_vcs_info_msg
 
 # auto change directory
