@@ -15,16 +15,8 @@ eval "$(rbenv init -)"
 
 ## Default shell configuration
 #
-# set prompt
-#
-#
-#PROMPT="tsuwatch%% "
-#RPROMPT="%{$fg_bold[white]%}[%{$reset_color%}%{$fg[cyan]%}%~%{$reset_color%}%{$fg_bold[white]%}]%{$reset_color%}"
-#SPROMPT="%{$fg_bold[red]%}correct%{$reset_color%}: %R -> %r ? "
 autoload colors
 colors
-
-#RPROMPT=""
 
 autoload -Uz vcs_info
 autoload -Uz add-zsh-hook
