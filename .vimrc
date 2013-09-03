@@ -239,6 +239,15 @@ set laststatus=2
 let g:lightline = {
 			\ 'colorscheme': 'solarized',
 			\ }
+"}}}
+
+" gitgutter {{{
+let g:gitgutter_realtime = 0
+let g:gitgutter_eager = 0
+"}}}
+"
+"
+"
 
 
 let twitvim_count = 40
