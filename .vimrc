@@ -104,6 +104,7 @@ NeoBundle 'mattn/emmet-vim'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'airblade/vim-gitgutter'
+NeoBundle 'tpope/vim-fugitive'
 
 
 filetype plugin on
@@ -238,15 +239,47 @@ nnoremap <silent> <Leader>fi :<C-u>VimFilerBufferDir -split -simple -winwidth=35
 set laststatus=2
 let g:lightline = {
 			\ 'colorscheme': 'solarized',
+			\ 'active': {
+			\ 	'left': [ [ 'mode', 'paste'],
+			\ 						[ 'fugitive', 'gitgutter', 'filename', 'modified' ] ]
+			\ },
+			\ 'component_function': {
+			\ 	'fugitive': 'MyFugitive',
+			\ 	'gitgutter': 'MyGitGutter'
 			\ }
+			\ }
+
+function! MyFugitive()
+	return exists('*fugitive#head') ? fugitive#head() : ''
+endfunction
+
+function! MyGitGutter()
+	if ! exists('*GitGutterGetHunkSummary')
+				\ || ! get(g:, 'gitgutter_enabled', 0)
+				\ || winwidth('.') <= 90
+		return ''
+	endif
+	let symbols = [
+				\ g:gitgutter_sign_added . ' ',
+				\ g:gitgutter_sign_modified . ' ',
+				\ g:gitgutter_sign_removed . ' '
+				\ ]
+	let hunks = GitGutterGetHunkSummary()
+	let ret = []
+	for i in [0, 1, 2]
+		if hunks[i] > 0
+			call add(ret, symbols[i] . hunks[i])
+		endif
+	endfor
+	return join(ret, ' ')
+endfunction
 "}}}
+
 
 " gitgutter {{{
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
 "}}}
-"
-"
 "
 
 
