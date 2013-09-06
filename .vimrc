@@ -12,6 +12,7 @@ set noswapfile
 " インデント
 set autoindent smartindent
 set tabstop=2 shiftwidth=2 softtabstop=0
+set expandtab
 " 編集
 set whichwrap=b,s,h,l,[,],<,>
 set backspace=2		" more powerful backspacing
