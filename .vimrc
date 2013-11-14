@@ -106,6 +106,8 @@ NeoBundle 'Shougo/neosnippet'
 NeoBundle 'itchyny/lightline.vim'
 NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'myhere/vim-nodejs-complete'
+NeoBundle 'pangloss/vim-javascript'
 
 
 filetype plugin on
@@ -238,6 +240,9 @@ nnoremap <silent> <Leader>fi :<C-u>VimFilerBufferDir -split -simple -winwidth=35
 
 " lightline {{{
 set laststatus=2
+if !has('gui_running')
+  set t_Co=256
+endif
 let g:lightline = {
 			\ 'colorscheme': 'solarized',
 			\ 'active': {
