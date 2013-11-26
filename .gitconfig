@@ -24,10 +24,6 @@
   status = auto
   branch = auto
   interactive = auto
-[pager]
-  log = diff-highlight | less
-  show = diff-highlight | less
-  diff = diff-highlight | less
 [github]
 	user = tsuwatch
   token = db68c61c3d2ca1e45b4ea026fd7c66bd
