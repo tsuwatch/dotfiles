@@ -108,6 +108,7 @@ NeoBundle 'airblade/vim-gitgutter'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'myhere/vim-nodejs-complete'
 NeoBundle 'pangloss/vim-javascript'
+NeoBundle 'tpope/vim-endwise'
 
 
 filetype plugin on
@@ -154,7 +155,7 @@ let g:neocomplcache_enable_smart_case = 1
 
 inoremap <expr><TAB> pumvisible() ? "<C-n>" : "<TAB>"
 inoremap <expr><S-TAB> pumvisible() ? "<C-p>" : "<S-TAB>"
-inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "<CR>"
+"inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "<CR>"
 "}}}
 
 
