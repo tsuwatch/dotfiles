@@ -3,3 +3,6 @@ plugins=(brew bundler coffee gem git git-flow github history history-substring-s
 source $ZSH/oh-my-zsh.sh
 
 source $HOME/.zshrc.custom
+
+# added by travis gem
+[ -f /Users/suwatomohiro/.travis/travis.sh ] && source /Users/suwatomohiro/.travis/travis.sh
