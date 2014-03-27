@@ -110,6 +110,9 @@ NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'myhere/vim-nodejs-complete'
 NeoBundle 'pangloss/vim-javascript'
 NeoBundle 'tpope/vim-endwise'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'tpope/vim-rails'
+NeoBundle 'tpope/vim-bundler'
 
 
 filetype plugin on
