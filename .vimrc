@@ -113,6 +113,7 @@ NeoBundle 'tpope/vim-endwise'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler'
+NeoBundle 'basyura/unite-rails'
 
 
 filetype plugin on
