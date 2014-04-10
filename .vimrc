@@ -294,5 +294,8 @@ let g:gitgutter_eager = 0
 "}}}
 "
 
+" Open nerdtree if no args
+autocmd VimEnter * if !argc() | NERDTree | endif
+
 
 let twitvim_count = 40
