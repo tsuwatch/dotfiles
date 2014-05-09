@@ -114,6 +114,8 @@ NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler'
 NeoBundle 'basyura/unite-rails'
+"NeoBundle 'todesking/ruby_hl_lvar.vim'
+NeoBundle 'vim-ruby/vim-ruby'
 
 
 filetype plugin on
