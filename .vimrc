@@ -116,6 +116,7 @@ NeoBundle 'tpope/vim-bundler'
 NeoBundle 'basyura/unite-rails'
 "NeoBundle 'todesking/ruby_hl_lvar.vim'
 NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'scrooloose/syntastic'
 
 
 filetype plugin on
@@ -294,10 +295,14 @@ endfunction
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
 "}}}
-"
+
 
 " Open nerdtree if no args
 autocmd VimEnter * if !argc() | NERDTree | endif
 
+" syntastic {{{
+let g:syntastic_enable_signs=1
+let g:syntactic_auto_loc_list=2
+"}}}
 
 let twitvim_count = 40
