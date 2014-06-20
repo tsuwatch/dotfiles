@@ -303,6 +303,7 @@ autocmd VimEnter * if !argc() | NERDTree | endif
 " syntastic {{{
 let g:syntastic_enable_signs=1
 let g:syntactic_auto_loc_list=2
+let g:syntastic_ruby_checkers = ['rubocop']
 "}}}
 
 let twitvim_count = 40
