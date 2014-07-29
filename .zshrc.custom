@@ -8,6 +8,8 @@ export LANG=ja_JP.UTF-8
 
 export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
+export GOPATH=$HOME/.go
+export PATH=$PATH:$GOPATH/bin
 export PATH="/usr/local/share/npm/bin:$PATH"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
@@ -402,3 +404,14 @@ web_search "https://www.google.co.jp/search?&q=" "+" "" $*
 function phpm () {
 web_search "http://jp2.php.net/manual-lookup.php?lang=ja&pattern=" "+" "" $*
 }
+
+function peco-ghq () {
+  local selected_dir=$(ghq list --full-path | peco --query "$LBUFFER")
+  if [ -n "$selected_dir" ]; then
+    BUFFER="cd ${selected_dir}"
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-ghq
+bindkey '' peco-ghq
