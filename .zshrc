@@ -6,3 +6,4 @@ source $HOME/.zshrc.custom
 
 # added by travis gem
 [ -f /Users/suwatomohiro/.travis/travis.sh ] && source /Users/suwatomohiro/.travis/travis.sh
+[[ -s /Users/suwatomohiro/.tmuxinator/scripts/tmuxinator ]] && source /Users/suwatomohiro/.tmuxinator/scripts/tmuxinator

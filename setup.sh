@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOT_FILES=( .gemrc .zshrc .zshrc.custom .vimrc .gitconfig .gitignore )
+DOT_FILES=( .gemrc .zshrc .zshrc.custom .vimrc .gitconfig .gitignore .tmux.conf )
 DIR=$(pwd)
 
 if [ -e $HOME/.vim ]
