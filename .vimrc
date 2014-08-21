@@ -117,6 +117,7 @@ NeoBundle 'basyura/unite-rails'
 "NeoBundle 'todesking/ruby_hl_lvar.vim'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'scrooloose/syntastic'
+NeoBundle 'derekwyatt/vim-scala'
 
 
 filetype plugin on
