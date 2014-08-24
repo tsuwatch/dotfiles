@@ -11,7 +11,8 @@ export EDITOR=/usr/bin/vi
 export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
 export GOPATH=$HOME/.go
-export PATH=$PATH:$GOPATH/bin
+export GOROOT=/usr/local/opt/go/libexec
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 export PATH="/usr/local/share/npm/bin:$PATH"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
@@ -417,3 +418,7 @@ function peco-ghq () {
 }
 zle -N peco-ghq
 bindkey '' peco-ghq
+
+function p() { peco | while read LINE; do $@ $LINE; done }
+alias o='git ls-files | p open'
+alias e='ghq list -p | p cd'

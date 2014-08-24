@@ -39,6 +39,11 @@ set wrapscan
 set smartcase
 set incsearch
 set hlsearch
+
+set rtp+=$GOROOT/misc/vim
+exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
+set completeopt=menu,preview
+
 nnoremap <Esc><Esc> :nohlsearch<CR>
 nnoremap n nzz
 nnoremap N Nzz
