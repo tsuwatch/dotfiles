@@ -399,25 +399,14 @@ open "${url}${query}"
 }
 
 function qiita () {
-web_search "http://qiita.com/search?utf8=✓&q=" "+" "" $*
+  web_search "http://qiita.com/search?utf8=✓&q=" "+" "" $*
 }
 function google () {
-web_search "https://www.google.co.jp/search?&q=" "+" "" $*
+  web_search "https://www.google.co.jp/search?&q=" "+" "" $*
 }
 function phpm () {
-web_search "http://jp2.php.net/manual-lookup.php?lang=ja&pattern=" "+" "" $*
+  web_search "http://jp2.php.net/manual-lookup.php?lang=ja&pattern=" "+" "" $*
 }
-
-function peco-ghq () {
-  local selected_dir=$(ghq list --full-path | peco --query "$LBUFFER")
-  if [ -n "$selected_dir" ]; then
-    BUFFER="cd ${selected_dir}"
-    zle accept-line
-  fi
-  zle clear-screen
-}
-zle -N peco-ghq
-bindkey '' peco-ghq
 
 function p() { peco | while read LINE; do $@ $LINE; done }
 alias o='git ls-files | p open'
