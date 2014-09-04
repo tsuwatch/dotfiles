@@ -313,4 +313,22 @@ let g:syntactic_auto_loc_list=2
 let g:syntastic_ruby_checkers = ['rubocop']
 "}}}
 
-let twitvim_count = 40
+
+function! s:unite_gitignore_source()
+  let sources = []
+  if filereadable('./.gitignore')
+    for file in readfile('./.gitignore')
+      if file !~ "^#\\|^\s\*$"
+        call add(sources, file)
+      endif
+    endfor
+  endif
+
+  if isdirectory('./.git')
+    call add(sources, '.git')
+  endif
+  let pattern = escape(join(sources, '|'), './|')
+  call unite#custom#source('file_rec', 'ignore_pattern', pattern)
+  call unite#custom#source('grep', 'ignore_pattern', pattern)
+endfunction
+call s:unite_gitignore_source()
