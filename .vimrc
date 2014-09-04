@@ -190,6 +190,7 @@ nnoremap <silent> [unite]g :Unite grep<CR>
 nnoremap <silent> [unite]o :Unite outline<CR>
 nnoremap <silent> [unite]s :Unite snippet<CR>
 nnoremap <silent> [unite]y :Unite history/yank<CR>
+nnoremap <silent> [unite]r :Unite file_rec/async<CR>
 
 " uniteを開いている間のキーマッピング
 augroup vimrc
