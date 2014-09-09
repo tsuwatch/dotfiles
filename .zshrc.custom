@@ -408,6 +408,11 @@ function phpm () {
   web_search "http://jp2.php.net/manual-lookup.php?lang=ja&pattern=" "+" "" $*
 }
 
+# peco
 function p() { peco | while read LINE; do $@ $LINE; done }
 alias o='git ls-files | p open'
 alias e='ghq list -p | p cd'
+
+function agvim () {
+  vim $(ag $@ | peco --query "$LBUFFER" | awk -F : ' {print "-c " $2 " " $1}')
+}
