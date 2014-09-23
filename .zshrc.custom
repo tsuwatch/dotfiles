@@ -409,7 +409,17 @@ function phpm () {
 }
 
 # peco
-function p() { peco | while read LINE; do $@ $LINE; done }
+function p () { peco | while read LINE; do $@ $LINE; done }
+function peco-src () {
+  local selected_dir=$(( echo "github.com/`git config github.user`" ; ghq list) | peco --query "$LBUFFER")
+  if [ -n "$selected_dir" ]; then
+    BUFFER="cd `git config ghq.root`/${selected_dir}"
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-src
+bindkey '^]' peco-src
 alias o='git ls-files | p open'
 alias e='ghq list -p | p cd'
 
