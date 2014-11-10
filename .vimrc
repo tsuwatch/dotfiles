@@ -125,6 +125,7 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'wavded/vim-stylus'
 NeoBundle 'digitaltoad/vim-jade'
+NeoBundle 'deris/vim-shot-f'
 
 
 filetype plugin on
