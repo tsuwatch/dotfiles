@@ -84,7 +84,9 @@ filetype off
 if has('vim_starting')
 	set runtimepath+=~/.vim/neobundle.vim
 
-	call neobundle#rc(expand('~/.vim'))
+	call neobundle#begin(expand('~/.vim'))
+  NeoBundleFetch 'Shougo/neobundle.vim'
+  call neobundle#end()
 endif
 
 NeoBundle 'Shougo/neobundle.vim'
@@ -101,7 +103,7 @@ NeoBundle 'Shougo/vim-vcs'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/vimshell'
 NeoBundle 'Shougo/vinarise'
-NeoBundle 'thinca/vim-auto_source'
+NeoBundle 'thinca/vim-auto_soubeginrce'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'ujihisa/vimshell-ssh'
