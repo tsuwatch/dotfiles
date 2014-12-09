@@ -128,7 +128,8 @@ NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'wavded/vim-stylus'
 NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'deris/vim-shot-f'
-NeoBundle 'rhysd/committia'
+NeoBundle 'rhysd/committia.vim'
+NeoBundle 'rhysd/vim-operator-surround'
 
 
 filetype plugin on
