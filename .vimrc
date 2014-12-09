@@ -129,6 +129,7 @@ NeoBundle 'wavded/vim-stylus'
 NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'deris/vim-shot-f'
 NeoBundle 'rhysd/committia.vim'
+NeoBundle 'kana/vim-operator-user'
 NeoBundle 'rhysd/vim-operator-surround'
 
 
