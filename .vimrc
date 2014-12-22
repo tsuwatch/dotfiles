@@ -131,6 +131,7 @@ NeoBundle 'rhysd/committia.vim'
 NeoBundle 'rhysd/clever-f.vim'
 NeoBundle 'kana/vim-operator-user'
 NeoBundle 'rhysd/vim-operator-surround'
+NeoBundle 'kannokanno/previm'
 
 
 filetype plugin on
@@ -315,10 +316,15 @@ let g:gitgutter_eager = 0
 " Open nerdtree if no args
 autocmd VimEnter * if !argc() | NERDTree | endif
 
+
 " syntastic {{{
 let g:syntastic_enable_signs=1
 let g:syntactic_auto_loc_list=2
 let g:syntastic_ruby_checkers = ['rubocop']
+"}}}
+
+" previm {{{
+let g:previm_open_cmd='open -a Google\ Chrome'
 "}}}
 
 
