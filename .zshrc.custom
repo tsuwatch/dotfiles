@@ -16,6 +16,7 @@ export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 export PATH="/usr/local/share/npm/bin:$PATH"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+export PATH="$(brew --prefix homebrew/php/php56)/bin:$PATH"
 eval "$(rbenv init -)"
 
 
