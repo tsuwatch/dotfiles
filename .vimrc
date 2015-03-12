@@ -122,7 +122,13 @@ NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler'
 NeoBundle 'basyura/unite-rails'
 NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'scrooloose/syntastic'
+NeoBundle 'scrooloose/syntastic' " {{{
+  let g:syntastic_mode_map = { 'mode': 'passive',
+                             \ 'active_filetypes': [],
+                             \ 'passive_filetypes': [] }
+  let g:syntastic_ruby_checkers = ['rubocop']
+"}}}
+
 NeoBundle 'wavded/vim-stylus'
 NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'deris/vim-shot-f'
@@ -321,11 +327,6 @@ let g:gitgutter_eager = 0
 autocmd VimEnter * if !argc() | NERDTree | endif
 
 
-" syntastic {{{
-let g:syntastic_enable_signs=1
-let g:syntactic_auto_loc_list=2
-let g:syntastic_ruby_checkers = ['rubocop']
-"}}}
 
 " previm {{{
 let g:previm_open_cmd='open -a Google\ Chrome'
