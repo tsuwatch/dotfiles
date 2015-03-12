@@ -123,7 +123,6 @@ NeoBundle 'tpope/vim-bundler'
 NeoBundle 'basyura/unite-rails'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'scrooloose/syntastic'
-NeoBundle 'derekwyatt/vim-scala'
 NeoBundle 'wavded/vim-stylus'
 NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'deris/vim-shot-f'
@@ -133,6 +132,11 @@ NeoBundle 'kana/vim-operator-user'
 NeoBundle 'rhysd/vim-operator-surround'
 NeoBundle 'kannokanno/previm'
 
+" Scala {{{
+NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'derekwyatt/vim-sbt'
+NeoBundle 'gre/play2vim'
+" }}}
 
 filetype plugin on
 filetype indent on
