@@ -97,7 +97,6 @@ NeoBundle 'Shougo/vimproc.vim', {
 			\     'unix' : 'make -f make_unix.mak',
 			\    }
 			\ }
-NeoBundle 'Shougo/echodoc'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/vim-vcs'
