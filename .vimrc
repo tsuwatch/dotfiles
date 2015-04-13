@@ -83,12 +83,21 @@ au BufWrite /private/etc/pw.* set nowritebackup
 filetype off
 
 if has('vim_starting')
-	set runtimepath+=~/.vim/neobundle.vim
+  if &compatible
+    set nocompatible
+  endif
 
-	call neobundle#begin(expand('~/.vim'))
-  NeoBundleFetch 'Shougo/neobundle.vim'
-  call neobundle#end()
+	set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
+
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+call neobundle#end()
+
+filetype plugin on
+NeoBundleCheck
 
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc.vim', {
@@ -141,7 +150,6 @@ NeoBundle 'derekwyatt/vim-sbt'
 NeoBundle 'gre/play2vim'
 " }}}
 
-filetype plugin on
 filetype indent on
 
 " Vim-Latex {{{
