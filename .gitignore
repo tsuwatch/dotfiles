@@ -4,3 +4,4 @@ vendor
 /node_modules
 dump.rdb
 .vim/bundle
+.vim/.netrwhist
