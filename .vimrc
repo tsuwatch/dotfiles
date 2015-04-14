@@ -39,6 +39,12 @@ set wrapscan
 set smartcase
 set incsearch
 set hlsearch
+
+set rtp+=$GOROOT/misc/vim
+autocmd FileType go autocmd BufWritePre <buffer> Fmt
+exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
+set completeopt=menu,preview
+
 nnoremap <Esc><Esc> :nohlsearch<CR>
 nnoremap n nzz
 nnoremap N Nzz
@@ -77,10 +83,21 @@ au BufWrite /private/etc/pw.* set nowritebackup
 filetype off
 
 if has('vim_starting')
-	set runtimepath+=~/.vim/neobundle.vim
+  if &compatible
+    set nocompatible
+  endif
 
-	call neobundle#rc(expand('~/.vim'))
+	set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
+
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+call neobundle#end()
+
+filetype plugin on
+NeoBundleCheck
 
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc.vim', {
@@ -89,14 +106,10 @@ NeoBundle 'Shougo/vimproc.vim', {
 			\     'unix' : 'make -f make_unix.mak',
 			\    }
 			\ }
-NeoBundle 'Shougo/echodoc'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vim-vcs'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/vinarise'
-NeoBundle 'thinca/vim-auto_source'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'ujihisa/vimshell-ssh'
@@ -113,9 +126,30 @@ NeoBundle 'tpope/vim-endwise'
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler'
+NeoBundle 'basyura/unite-rails'
+NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'scrooloose/syntastic' " {{{
+  let g:syntastic_mode_map = { 'mode': 'passive',
+                             \ 'active_filetypes': [],
+                             \ 'passive_filetypes': [] }
+  let g:syntastic_ruby_checkers = ['rubocop']
+"}}}
 
+NeoBundle 'wavded/vim-stylus'
+NeoBundle 'digitaltoad/vim-jade'
+NeoBundle 'deris/vim-shot-f'
+NeoBundle 'rhysd/committia.vim'
+NeoBundle 'rhysd/clever-f.vim'
+NeoBundle 'kana/vim-operator-user'
+NeoBundle 'rhysd/vim-operator-surround'
+NeoBundle 'kannokanno/previm'
 
-filetype plugin on
+" Scala {{{
+NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'derekwyatt/vim-sbt'
+NeoBundle 'gre/play2vim'
+" }}}
+
 filetype indent on
 
 " Vim-Latex {{{
@@ -180,6 +214,7 @@ nnoremap <silent> [unite]g :Unite grep<CR>
 nnoremap <silent> [unite]o :Unite outline<CR>
 nnoremap <silent> [unite]s :Unite snippet<CR>
 nnoremap <silent> [unite]y :Unite history/yank<CR>
+nnoremap <silent> [unite]r :Unite file_rec/async<CR>
 
 " uniteを開いている間のキーマッピング
 augroup vimrc
@@ -291,7 +326,33 @@ endfunction
 let g:gitgutter_realtime = 0
 let g:gitgutter_eager = 0
 "}}}
-"
 
 
-let twitvim_count = 40
+" Open nerdtree if no args
+autocmd VimEnter * if !argc() | NERDTree | endif
+
+
+
+" previm {{{
+let g:previm_open_cmd='open -a Google\ Chrome'
+"}}}
+
+
+function! s:unite_gitignore_source()
+  let sources = []
+  if filereadable('./.gitignore')
+    for file in readfile('./.gitignore')
+      if file !~ "^#\\|^\s\*$"
+        call add(sources, file)
+      endif
+    endfor
+  endif
+
+  if isdirectory('./.git')
+    call add(sources, '.git')
+  endif
+  let pattern = escape(join(sources, '|'), './|')
+  call unite#custom#source('file_rec', 'ignore_pattern', pattern)
+  call unite#custom#source('grep', 'ignore_pattern', pattern)
+endfunction
+call s:unite_gitignore_source()

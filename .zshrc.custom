@@ -6,11 +6,19 @@
 #
 export LANG=ja_JP.UTF-8
 
+export EDITOR=/usr/bin/vi
+
 export PATH="$HOME/.rbenv/bin:$PATH"
 export PATH="$HOME/.nodebrew/current/bin:$PATH"
+export GOPATH=$HOME/.go
+export GOROOT=/usr/local/opt/go/libexec
+export PATH=$GOPATH/bin:$GOROOT/bin:$PATH
 export PATH="/usr/local/share/npm/bin:$PATH"
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
+export PATH="$(brew --prefix homebrew/php/php56)/bin:$PATH"
+export PATH=/usr/local/bin:$PATH
+
 eval "$(rbenv init -)"
 
 
@@ -305,6 +313,8 @@ alias df="df -h"
 alias su="su -l"
 alias rm="rm -i"
 
+alias v="vim"
+
 case "${OSTYPE}" in
 	darwin*)
 		alias updateports="sudo port selfupdate; sudo port outdated"
@@ -392,11 +402,30 @@ open "${url}${query}"
 }
 
 function qiita () {
-web_search "http://qiita.com/search?utf8=✓&q=" "+" "" $*
+  web_search "http://qiita.com/search?utf8=✓&q=" "+" "" $*
 }
 function google () {
-web_search "https://www.google.co.jp/search?&q=" "+" "" $*
+  web_search "https://www.google.co.jp/search?&q=" "+" "" $*
 }
 function phpm () {
-web_search "http://jp2.php.net/manual-lookup.php?lang=ja&pattern=" "+" "" $*
+  web_search "http://jp2.php.net/manual-lookup.php?lang=ja&pattern=" "+" "" $*
+}
+
+# peco
+function p () { peco | while read LINE; do $@ $LINE; done }
+function peco-src () {
+  local selected_dir=$(( echo "github.com/`git config github.user`" ; ghq list) | peco --query "$LBUFFER")
+  if [ -n "$selected_dir" ]; then
+    BUFFER="cd `git config ghq.root`/${selected_dir}"
+    zle accept-line
+  fi
+  zle clear-screen
+}
+zle -N peco-src
+bindkey '^]' peco-src
+alias o='git ls-files | p open'
+alias e='ghq list -p | p cd'
+
+function agvim () {
+  vim $(ag $@ | peco --query "$LBUFFER" | awk -F : ' {print "-c " $2 " " $1}')
 }
