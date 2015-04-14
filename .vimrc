@@ -94,11 +94,6 @@ call neobundle#begin(expand('~/.vim/bundle/'))
 
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-call neobundle#end()
-
-filetype plugin on
-NeoBundleCheck
-
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc.vim', {
 			\ 'build' : {
@@ -150,6 +145,11 @@ NeoBundle 'derekwyatt/vim-sbt'
 NeoBundle 'gre/play2vim'
 " }}}
 
+call neobundle#end()
+" 起動時に未インストールプラグインをインストールする
+NeoBundleCheck
+" ファイルタイプ別のプラグイン、インデントを有効にする
+filetype plugin on
 filetype indent on
 
 " Vim-Latex {{{
