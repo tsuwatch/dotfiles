@@ -83,12 +83,16 @@ au BufWrite /private/etc/pw.* set nowritebackup
 filetype off
 
 if has('vim_starting')
-	set runtimepath+=~/.vim/neobundle.vim
+  if &compatible
+    set nocompatible
+  endif
 
-	call neobundle#begin(expand('~/.vim'))
-  NeoBundleFetch 'Shougo/neobundle.vim'
-  call neobundle#end()
+	set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
+
+call neobundle#begin(expand('~/.vim/bundle/'))
+
+NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'Shougo/neobundle.vim'
 NeoBundle 'Shougo/vimproc.vim', {
@@ -97,13 +101,10 @@ NeoBundle 'Shougo/vimproc.vim', {
 			\     'unix' : 'make -f make_unix.mak',
 			\    }
 			\ }
-NeoBundle 'Shougo/echodoc'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vim-vcs'
 NeoBundle 'Shougo/vimfiler'
 NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/vinarise'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'ujihisa/vimshell-ssh'
@@ -122,8 +123,13 @@ NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler'
 NeoBundle 'basyura/unite-rails'
 NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'scrooloose/syntastic'
-NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'scrooloose/syntastic' " {{{
+  let g:syntastic_mode_map = { 'mode': 'passive',
+                             \ 'active_filetypes': [],
+                             \ 'passive_filetypes': [] }
+  let g:syntastic_ruby_checkers = ['rubocop']
+"}}}
+
 NeoBundle 'wavded/vim-stylus'
 NeoBundle 'digitaltoad/vim-jade'
 NeoBundle 'deris/vim-shot-f'
@@ -132,8 +138,18 @@ NeoBundle 'rhysd/clever-f.vim'
 NeoBundle 'kana/vim-operator-user'
 NeoBundle 'rhysd/vim-operator-surround'
 NeoBundle 'elixir-lang/vim-elixir'
+NeoBundle 'kannokanno/previm'
 
+" Scala {{{
+NeoBundle 'derekwyatt/vim-scala'
+NeoBundle 'derekwyatt/vim-sbt'
+NeoBundle 'gre/play2vim'
+" }}}
 
+call neobundle#end()
+" 起動時に未インストールプラグインをインストールする
+NeoBundleCheck
+" ファイルタイプ別のプラグイン、インデントを有効にする
 filetype plugin on
 filetype indent on
 
@@ -316,10 +332,10 @@ let g:gitgutter_eager = 0
 " Open nerdtree if no args
 autocmd VimEnter * if !argc() | NERDTree | endif
 
-" syntastic {{{
-let g:syntastic_enable_signs=1
-let g:syntactic_auto_loc_list=2
-let g:syntastic_ruby_checkers = ['rubocop']
+
+
+" previm {{{
+let g:previm_open_cmd='open -a Google\ Chrome'
 "}}}
 
 

@@ -28,4 +28,4 @@
 	user = tsuwatch
   token = db68c61c3d2ca1e45b4ea026fd7c66bd
 [ghq]
-	root = /Users/suwatomohiro/.ghq
+	root = ~/.ghq
