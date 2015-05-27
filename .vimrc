@@ -131,6 +131,7 @@ NeoBundle 'rhysd/committia.vim'
 NeoBundle 'rhysd/clever-f.vim'
 NeoBundle 'kana/vim-operator-user'
 NeoBundle 'rhysd/vim-operator-surround'
+NeoBundle 'elixir-lang/vim-elixir'
 
 
 filetype plugin on
