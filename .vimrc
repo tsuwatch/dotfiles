@@ -124,8 +124,8 @@ NeoBundle 'tpope/vim-bundler'
 NeoBundle 'basyura/unite-rails'
 NeoBundle 'vim-ruby/vim-ruby'
 NeoBundle 'scrooloose/syntastic' " {{{
-  let g:syntastic_mode_map = { 'mode': 'passive',
-                             \ 'active_filetypes': [],
+  let g:syntastic_mode_map = { 'mode': 'active',
+                             \ 'active_filetypes': ['ruby'],
                              \ 'passive_filetypes': [] }
   let g:syntastic_ruby_checkers = ['rubocop']
 "}}}
