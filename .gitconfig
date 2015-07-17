@@ -2,7 +2,7 @@
   editor = vim
   excludesfile = ~/.gitignore
 [user]
-	name = Tomohiro Suwa
+  name = Tomohiro Suwa
   email = neoen.gsn@gmail.com
 [alias]
   commit = commit -v
@@ -19,13 +19,16 @@
   di = diff
   d1 = diff HEAD~
   d2 = diff HEAD~~
-[color]
-  diff = auto
+  pr = !hub browse -- compare/$(git symbolic-ref --short HEAD)'?'expand=1'&'body=%23%23%20%E7%9B%AE%E7%9A%84%0A%0A%23%23%20%E5%A4%89%E6%9B%B4%E5%86%85%E5%AE%B9
+  byme = !hub browse -- issues/created_by/$(git config github.user) && hub browse -- pulls/$(git config github.user)       [color]
+  tome = !hub browse -- issues/assigned/$(git config github.user) && hub browse -- pulls/assigned/$(git config github.user)  diff = auto
   status = auto
   branch = auto
   interactive = auto
 [github]
-	user = tsuwatch
+  user = tsuwatch
   token = db68c61c3d2ca1e45b4ea026fd7c66bd
 [ghq]
-	root = ~/.ghq
+  root = ~/.ghq
+[include]
+  path = .gitconfig.local
