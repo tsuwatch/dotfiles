@@ -139,6 +139,8 @@ NeoBundle 'kana/vim-operator-user'
 NeoBundle 'rhysd/vim-operator-surround'
 NeoBundle 'elixir-lang/vim-elixir'
 NeoBundle 'kannokanno/previm'
+NeoBundle 'mxw/vim-jsx'
+NeoBundle 'kchmck/vim-coffee-script'
 
 " Scala {{{
 NeoBundle 'derekwyatt/vim-scala'
