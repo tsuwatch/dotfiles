@@ -142,6 +142,7 @@ NeoBundle 'kannokanno/previm'
 NeoBundle 'mxw/vim-jsx'
 NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'slim-template/vim-slim'
+NeoBundle 'k0kubun/vim-open-github'
 
 " Scala {{{
 NeoBundle 'derekwyatt/vim-scala'
