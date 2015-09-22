@@ -123,6 +123,9 @@ NeoBundle 'tpope/vim-rails'
 NeoBundle 'tpope/vim-bundler'
 NeoBundle 'basyura/unite-rails'
 NeoBundle 'vim-ruby/vim-ruby'
+NeoBundle 'rhysd/vim-textobj-ruby'
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'terryma/vim-expand-region'
 NeoBundle 'scrooloose/syntastic' " {{{
   let g:syntastic_mode_map = { 'mode': 'active',
                              \ 'active_filetypes': ['ruby', 'javascript'],
