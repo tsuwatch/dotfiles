@@ -251,7 +251,7 @@ let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_safe_mode_by_default = 0
 
 autocmd! FileType vimfiler call g:my_vimfiler_settings()
-function! g:my_vimfiler_settings()
+function! s:my_vimfiler_settings()
 	nnoremap <buffer>s :call vimfiler#mappings#do_action('my_split')<CR>
 	nnoremap <buffer>v :call vimfiler#mappings#do_action('my_vsplit')<CR>
 endfunction
