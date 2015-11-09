@@ -131,6 +131,7 @@ NeoBundle 'scrooloose/syntastic' " {{{
                              \ 'active_filetypes': ['ruby', 'javascript'],
                              \ 'passive_filetypes': [] }
   let g:syntastic_ruby_checkers = ['rubocop']
+  let g:syntastic_javascript_checkers = ['eslint']
 "}}}
 
 NeoBundle 'wavded/vim-stylus'
