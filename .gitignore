@@ -5,3 +5,4 @@ vendor
 dump.rdb
 .vim/bundle
 .vim/.netrwhist
+/.idea
