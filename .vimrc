@@ -340,7 +340,8 @@ let g:gitgutter_eager = 0
 " Open nerdtree if no args
 autocmd VimEnter * if !argc() | NERDTree | endif
 
-
+" Automatically open quickfix-window
+autocmd QuickFixCmdPost *grep* cwindow
 
 " previm {{{
 let g:previm_open_cmd='open -a Google\ Chrome'
