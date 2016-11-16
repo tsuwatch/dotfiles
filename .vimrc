@@ -40,10 +40,6 @@ set smartcase
 set incsearch
 set hlsearch
 
-set rtp+=$GOROOT/misc/vim
-autocmd FileType go autocmd BufWritePre <buffer> Fmt
-exe "set rtp+=".globpath($GOPATH, "src/github.com/nsf/gocode/vim")
-set completeopt=menu,preview
 
 nnoremap <Esc><Esc> :nohlsearch<CR>
 nnoremap n nzz
@@ -148,6 +144,7 @@ NeoBundle 'kchmck/vim-coffee-script'
 NeoBundle 'slim-template/vim-slim'
 NeoBundle 'k0kubun/vim-open-github'
 NeoBundle 'leafgarland/typescript-vim'
+NeoBundle 'fatih/vim-go'
 
 " Scala {{{
 NeoBundle 'derekwyatt/vim-scala'
