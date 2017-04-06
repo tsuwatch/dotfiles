@@ -345,6 +345,10 @@ autocmd QuickFixCmdPost *grep* cwindow
 let g:previm_open_cmd='open -a Google\ Chrome'
 "}}}
 
+" vim-jsx {{{
+let g:jsx_ext_required = 0
+"}}}
+
 
 function! s:unite_gitignore_source()
   let sources = []
