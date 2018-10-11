@@ -411,6 +411,14 @@ function peco-src () {
 }
 zle -N peco-src
 bindkey '^]' peco-src
+
+function peco-dir-open-vim () {
+  git ls-files | peco | xargs -o vim
+  zle clear-screen
+}
+zle -N peco-dir-open-vim
+bindkey '^v' peco-dir-open-vim
+
 alias o='git ls-files | p open'
 alias e='ghq list -p | p cd'
 
