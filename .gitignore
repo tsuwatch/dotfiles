@@ -1,8 +1,10 @@
 .DS_Store
-vendor
 /.bundle
 /node_modules
 dump.rdb
 .vim/bundle
 .vim/.netrwhist
 /.idea
+/vendor/bundler
+npm-debug.log
+.env
