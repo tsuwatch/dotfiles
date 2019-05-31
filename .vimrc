@@ -40,7 +40,6 @@ set smartcase
 set incsearch
 set hlsearch
 
-
 nnoremap <Esc><Esc> :nohlsearch<CR>
 nnoremap n nzz
 nnoremap N Nzz
@@ -70,6 +69,11 @@ nnoremap [prefix] <nop>
 nmap <Space> [prefix]
 nnoremap [subprefix] <nop>
 nmap , [subprefix]
+" 行が折り返し表示されていた場合、行単位ではなく表示行単位でカーソルを移動する
+nnoremap j gj
+nnoremap k gk
+nnoremap <down> gj
+nnoremap <up> gk
 
 " Don't write backup file if vim is being called by "crontab -e"
 au BufWrite /private/tmp/crontab.* set nowritebackup
@@ -145,6 +149,11 @@ NeoBundle 'slim-template/vim-slim'
 NeoBundle 'k0kubun/vim-open-github'
 NeoBundle 'leafgarland/typescript-vim'
 NeoBundle 'fatih/vim-go'
+NeoBundle 'fleischie/vim-styled-components'
+NeoBundleLazy 'flowtype/vim-flow', {
+          \ 'autoload': {
+          \     'filetypes': 'javascript'
+          \ }}
 
 " Scala {{{
 NeoBundle 'derekwyatt/vim-scala'
@@ -217,7 +226,7 @@ nnoremap <silent> [unite]m :Unite file_mru<CR>
 nnoremap <silent> [unite]d :UniteWithBufferDir -buffer-name=files file<CR>
 nnoremap <silent> [unite]t :Unite tab<CR>
 nnoremap <silent> [unite]w :Unite window<CR>
-nnoremap <silent> [unite]g :Unite grep<CR>
+nnoremap <silent> [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
 nnoremap <silent> [unite]o :Unite outline<CR>
 nnoremap <silent> [unite]s :Unite snippet<CR>
 nnoremap <silent> [unite]y :Unite history/yank<CR>
