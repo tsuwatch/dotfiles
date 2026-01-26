@@ -30,9 +30,8 @@ set scrolloff=5
 highlight Pmenu ctermbg=4
 highlight PmenuSel ctermbg=1
 highlight PmenuSbar ctermbg=4
-" Solarized
-set background=dark
-colorscheme solarized
+colorscheme retrobox
+
 " 検索
 set ignorecase
 set wrapscan
@@ -80,219 +79,61 @@ au BufWrite /private/tmp/crontab.* set nowritebackup
 " Don't write backup file if vim is being called by "chpass"
 au BufWrite /private/etc/pw.* set nowritebackup
 
-filetype off
-
-if has('vim_starting')
-  if &compatible
-    set nocompatible
+let $CACHE = expand('~/.cache')
+if !($CACHE->isdirectory())
+  call mkdir($CACHE, 'p')
+endif
+if &runtimepath !~# '/dein.vim'
+  let s:dir = 'dein.vim'->fnamemodify(':p')
+  if !(s:dir->isdirectory())
+    let s:dir = $CACHE .. '/dein/repos/github.com/Shougo/dein.vim'
+    if !(s:dir->isdirectory())
+      execute '!git clone https://github.com/Shougo/dein.vim' s:dir
+    endif
   endif
-
-	set runtimepath+=~/.vim/bundle/neobundle.vim/
+  execute 'set runtimepath^='
+        \ .. s:dir->fnamemodify(':p')->substitute('[/\\]$', '', '')
 endif
 
-call neobundle#begin(expand('~/.vim/bundle/'))
+" Set dein base path (required)
+let s:dein_base = '~/.cache/dein/'
 
-NeoBundleFetch 'Shougo/neobundle.vim'
+" Set dein source path (required)
+let s:dein_src = '~/.cache/dein/repos/github.com/Shougo/dein.vim'
 
-NeoBundle 'Shougo/neobundle.vim'
-NeoBundle 'Shougo/vimproc.vim', {
-			\ 'build' : {
-			\     'mac' : 'make -f make_mac.mak',
-			\     'unix' : 'make -f make_unix.mak',
-			\    }
-			\ }
-NeoBundle 'Shougo/neocomplcache'
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/vimfiler'
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'h1mesuke/unite-outline'
-NeoBundle 'ujihisa/vimshell-ssh'
-NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'mattn/emmet-vim'
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'Shougo/neosnippet-snippets'
-NeoBundle 'itchyny/lightline.vim'
-NeoBundle 'airblade/vim-gitgutter'
-NeoBundle 'tpope/vim-fugitive'
-NeoBundle 'myhere/vim-nodejs-complete'
-NeoBundle 'pangloss/vim-javascript'
-NeoBundle 'tpope/vim-endwise'
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'tpope/vim-rails'
-NeoBundle 'tpope/vim-bundler'
-NeoBundle 'basyura/unite-rails'
-NeoBundle 'vim-ruby/vim-ruby'
-NeoBundle 'rhysd/vim-textobj-ruby'
-NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'terryma/vim-expand-region'
-NeoBundle 'scrooloose/syntastic' " {{{
-  let g:syntastic_mode_map = { 'mode': 'active',
-                             \ 'active_filetypes': ['ruby', 'javascript'],
-                             \ 'passive_filetypes': [] }
-  let g:syntastic_ruby_checkers = ['rubocop']
-  let g:syntastic_javascript_checkers = ['eslint']
-"}}}
+" Set dein runtime path (required)
+execute 'set runtimepath+=' .. s:dein_src
 
-NeoBundle 'wavded/vim-stylus'
-NeoBundle 'digitaltoad/vim-jade'
-NeoBundle 'deris/vim-shot-f'
-NeoBundle 'rhysd/committia.vim'
-NeoBundle 'rhysd/clever-f.vim'
-NeoBundle 'kana/vim-operator-user'
-NeoBundle 'rhysd/vim-operator-surround'
-NeoBundle 'elixir-lang/vim-elixir'
-NeoBundle 'kannokanno/previm'
-NeoBundle 'mxw/vim-jsx'
-NeoBundle 'kchmck/vim-coffee-script'
-NeoBundle 'slim-template/vim-slim'
-NeoBundle 'k0kubun/vim-open-github'
-NeoBundle 'leafgarland/typescript-vim'
-NeoBundle 'fatih/vim-go'
-NeoBundle 'fleischie/vim-styled-components'
-NeoBundleLazy 'flowtype/vim-flow', {
-          \ 'autoload': {
-          \     'filetypes': 'javascript'
-          \ }}
+" Call dein initialization (required)
+call dein#begin(s:dein_base)
 
-" Scala {{{
-NeoBundle 'derekwyatt/vim-scala'
-NeoBundle 'derekwyatt/vim-sbt'
-NeoBundle 'gre/play2vim'
-" }}}
+call dein#add(s:dein_src)
 
-call neobundle#end()
-" 起動時に未インストールプラグインをインストールする
-NeoBundleCheck
-" ファイルタイプ別のプラグイン、インデントを有効にする
-filetype plugin on
-filetype indent on
+" Your plugins go here:
+call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
+call dein#add('Shougo/vimfiler.vim')
+call dein#add('preservim/nerdtree')
+call dein#add('Shougo/neosnippet.vim')
+call dein#add('Shougo/neosnippet-snippets')
+call dein#add('tpope/vim-rails')
+call dein#add('tpope/vim-bundler')
+call dein#add('tpope/vim-fugitive')
+call dein#add('tpope/vim-rhubarb')
+call dein#add('itchyny/lightline.vim')
+call dein#add('rhysd/committia.vim')
 
-" Vim-Latex {{{
-set shellslash
-set grepprg=grep\ -nH\ $*
-let g:tex_flavor='latex'
+" Finish dein initialization (required)
+call dein#end()
 
-let g:Imap_UsePlaceHolders = 1
-let g:Imap_DeleteEmptyPlaceHolders = 1
-let g:Imap_StickyPlaceHolders = 0
-let g:Tex_DefaultTargetFormat = 'pdf'
-let g:Tex_FormatDependency_ps = 'dvi,ps'
-
-let g:Tex_FormatDependency_pdf = 'dvi,pdf'
-let g:Tex_CompileRule_dvi = '/usr/texbin/platex -synctex=1 -interaction=nonstopmode $*'
-let g:Tex_CompileRule_ps = '/usr/texbin/dvips -Ppdf -o $*.ps $*.dvi'
-let g:Tex_CompileRule_pdf = '/usr/texbin/dvipdfmx $*.dvi'
-let g:Tex_BibtexFlavor = '/usr/texbin/pbibtex'
-"let g:Tex_BibtexFlavor = '/usr/texbin/upbibtex'
-let g:Tex_MakeIndexFlavor = '/usr/texbin/mendex $*.idx'
-let g:Tex_UseEditorSettingInDVIViewer = 1
-"let g:Tex_ViewRule_dvi = '/usr/texbin/pxdvi -watchfile 1 -editor "vim --servername vim-latex -n --remote-silent +\%l \%f"'
-let g:Tex_ViewRule_dvi = '/usr/bin/open -a PictPrinter.app'
-"let g:Tex_ViewRule_dvi = '/usr/bin/open -a Mxdvi.app'
-let g:Tex_ViewRule_ps = '/usr/local/bin/gv --watch'
-let g:Tex_ViewRule_pdf = '/usr/bin/open -a Preview.app'
-"let g:Tex_ViewRule_pdf = '/usr/bin/open -a Skim.app'
-""let g:Tex_ViewRule_pdf = '/usr/bin/open -a TeXShop.app'
-"let g:Tex_ViewRule_pdf = '/usr/bin/open -a TeXworks.app'
-"}}}
-
-
-" neocomplcache {{{
-let g:neocomplcache_enable_at_startup = 1
-" ポップアップメニューで表示される候補の数
-let g:neocomplcache_max_list = 1000
-" 補完検索時に大文字・小文字を無視する
-let g:neocomplcache_enable_ignore_case= 1
-" 大文字が入力されている場合、大文字・小文字を区別する
-let g:neocomplcache_enable_smart_case = 1
-
-inoremap <expr><TAB> pumvisible() ? "<C-n>" : "<TAB>"
-inoremap <expr><S-TAB> pumvisible() ? "<C-p>" : "<S-TAB>"
-"inoremap <expr><CR> pumvisible() ? neocomplcache#close_popup() : "<CR>"
-"}}}
-
-
-" unite {{{
-nnoremap [unite] <nop>
-nmap <space> [unite]
-
-let g:unite_source_history_yank_enable = 1
-let g:unite_source_bookmark_directory = $HOME . '/.unite/bookmark'
-
-nnoremap <silent> [unite]b :Unite buffer<CR>
-nnoremap <silent> [unite]f :Unite file<CR>
-nnoremap <silent> [unite]m :Unite file_mru<CR>
-nnoremap <silent> [unite]d :UniteWithBufferDir -buffer-name=files file<CR>
-nnoremap <silent> [unite]t :Unite tab<CR>
-nnoremap <silent> [unite]w :Unite window<CR>
-nnoremap <silent> [unite]g :<C-u>Unite grep:. -buffer-name=search-buffer<CR>
-nnoremap <silent> [unite]o :Unite outline<CR>
-nnoremap <silent> [unite]s :Unite snippet<CR>
-nnoremap <silent> [unite]y :Unite history/yank<CR>
-nnoremap <silent> [unite]r :Unite file_rec/async<CR>
-
-" uniteを開いている間のキーマッピング
-augroup vimrc
-	autocmd FileType unite call s:unite_my_settings()
-augroup END
-function! s:unite_my_settings()
-	nmap <buffer> <ESC> <Plug>(unite_exit)
-	imap <buffer> jj <Plug>(unite_insert_leave)
-	imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
-	noremap <silent> <buffer> <expr> s unite#smart_map('s', unite#do_action('split'))
-	inoremap <silent> <buffer> <expr> s unite#smart_map('s', unite#do_action('split'))
-	noremap <silent> <buffer> <expr> v unite#smart_map('v', unite#do_action('vsplit'))
-	inoremap <silent> <buffer> <expr> v unite#smart_map('v', unite#do_action('vsplit'))
-	noremap <silent> <buffer> <expr> f unite#smart_map('f', unite#do_action('vimfiler'))
-	inoremap <silent> <buffer> <expr> f unite#smart_map('f', unite#do_action('vimfiler'))
-endfunction
-"}}}
-
-
-" vimfiler {{{
-if has('macunix')
-	let g:vimfiler_data_directory = '/Volumes/Macintosh\ HD/.vimfiler'
+" If you want to install not installed plugins on startup.
+if dein#check_install()
+  call dein#install()
 endif
 
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_safe_mode_by_default = 0
-
-autocmd! FileType vimfiler call g:my_vimfiler_settings()
-function! s:my_vimfiler_settings()
-	nnoremap <buffer>s :call vimfiler#mappings#do_action('my_split')<CR>
-	nnoremap <buffer>v :call vimfiler#mappings#do_action('my_vsplit')<CR>
-endfunction
-
-let my_action = { 'is_selectable' : 1 }
-function! my_action.func(candidates)
-	wincmd p
-	exec 'split '. a:candidates[0].action__path
-endfunction
-call unite#custom_action('file', 'my_split', my_action)
-
-let my_action = { 'is_selectable' : 1 }
-function! my_action.func(candidates)
-	wincmd p
-	exec 'vsplit '. a:candidates[0].action__path
-endfunction
-call unite#custom_action('file', 'my_vsplit', my_action)
-
-" key bindings
-nnoremap <silent> [subprefix]f :VimFiler -buffer-name=explorer -split -winwidth=45 -toggle -no-quit<CR>
-"}}}
-
-" vimshell {{{
-let g:vimshell_interactive_update_time = 10
-call unite#custom_default_action('vimshell/history', 'insert')
-
-" key mapping
-nnoremap <silent> vs :VimShell<CR>
-nnoremap <silent> vsc :VimShellCreate<CR>
-nnoremap <silent> vp :VimShellPop<CR>
-nnoremap <silent> <Leader>fi :<C-u>VimFilerBufferDir -split -simple -winwidth=35 -no-quit<CR>
-"}}}
-
+" Start NERDTree and leave the cursor in it.
+autocmd VimEnter * NERDTree
+" Exit Vim if NERDTree is the only window remaining in the only tab.
+autocmd BufEnter * if tabpagenr('$') == 1 && winnr('$') == 1 && exists('b:NERDTree') && b:NERDTree.isTabTree() | call feedkeys(":quit\<CR>:\<BS>") | endif
 
 " lightline {{{
 set laststatus=2
@@ -300,80 +141,16 @@ if !has('gui_running')
   set t_Co=256
 endif
 let g:lightline = {
-			\ 'colorscheme': 'solarized',
-			\ 'active': {
-			\ 	'left': [ [ 'mode', 'paste'],
-			\ 						[ 'fugitive', 'gitgutter', 'filename', 'modified' ] ]
-			\ },
-			\ 'component_function': {
-			\ 	'fugitive': 'MyFugitive',
-			\ 	'gitgutter': 'MyGitGutter'
-			\ }
-			\ }
+      \ 'colorscheme': 'solarized',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste'],
+      \             [ 'gitbranch', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'FugitiveHead'
+      \ }
+      \ }
 
-function! MyFugitive()
-	return exists('*fugitive#head') ? fugitive#head() : ''
-endfunction
-
-function! MyGitGutter()
-	if ! exists('*GitGutterGetHunkSummary')
-				\ || ! get(g:, 'gitgutter_enabled', 0)
-				\ || winwidth('.') <= 90
-		return ''
-	endif
-	let symbols = [
-				\ g:gitgutter_sign_added . ' ',
-				\ g:gitgutter_sign_modified . ' ',
-				\ g:gitgutter_sign_removed . ' '
-				\ ]
-	let hunks = GitGutterGetHunkSummary()
-	let ret = []
-	for i in [0, 1, 2]
-		if hunks[i] > 0
-			call add(ret, symbols[i] . hunks[i])
-		endif
-	endfor
-	return join(ret, ' ')
-endfunction
-"}}}
+filetype plugin indent on
 
 
-" gitgutter {{{
-let g:gitgutter_realtime = 0
-let g:gitgutter_eager = 0
-"}}}
-
-
-" Open nerdtree if no args
-autocmd VimEnter * if !argc() | NERDTree | endif
-
-" Automatically open quickfix-window
-autocmd QuickFixCmdPost *grep* cwindow
-
-" previm {{{
-let g:previm_open_cmd='open -a Google\ Chrome'
-"}}}
-
-" vim-jsx {{{
-let g:jsx_ext_required = 0
-"}}}
-
-
-function! s:unite_gitignore_source()
-  let sources = []
-  if filereadable('./.gitignore')
-    for file in readfile('./.gitignore')
-      if file !~ "^#\\|^\s\*$"
-        call add(sources, file)
-      endif
-    endfor
-  endif
-
-  if isdirectory('./.git')
-    call add(sources, '.git')
-  endif
-  let pattern = escape(join(sources, '|'), './|')
-  call unite#custom#source('file_rec', 'ignore_pattern', pattern)
-  call unite#custom#source('grep', 'ignore_pattern', pattern)
-endfunction
-call s:unite_gitignore_source()

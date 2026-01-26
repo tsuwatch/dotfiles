@@ -4,5 +4,3 @@ setl shiftwidth=4
 setl softtabstop=4
 
 autocmd BufWritePre * :%s/\s\+$//ge
-
-setlocal textwidth=80
