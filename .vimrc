@@ -96,10 +96,10 @@ if &runtimepath !~# '/dein.vim'
 endif
 
 " Set dein base path (required)
-let s:dein_base = '~/.cache/dein/'
+let s:dein_base = expand('~/.cache/dein')
 
 " Set dein source path (required)
-let s:dein_src = '~/.cache/dein/repos/github.com/Shougo/dein.vim'
+let s:dein_src = expand('~/.cache/dein/repos/github.com/Shougo/dein.vim')
 
 " Set dein runtime path (required)
 execute 'set runtimepath+=' .. s:dein_src
@@ -124,6 +124,11 @@ call dein#add('rhysd/committia.vim')
 
 " Finish dein initialization (required)
 call dein#end()
+
+" Attempt to determine the type of a file based on its name and possibly its
+" contents. Use this to allow intelligent auto-indenting for each filetype,
+" and for plugins that are filetype specific.
+filetype plugin indent on
 
 " If you want to install not installed plugins on startup.
 if dein#check_install()
@@ -150,7 +155,3 @@ let g:lightline = {
       \   'gitbranch': 'FugitiveHead'
       \ }
       \ }
-
-filetype plugin indent on
-
-
