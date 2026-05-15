@@ -110,7 +110,6 @@ call dein#begin(s:dein_base)
 call dein#add(s:dein_src)
 
 " Your plugins go here:
-call dein#add('Shougo/vimproc.vim', {'build' : 'make'})
 call dein#add('Shougo/vimfiler.vim')
 call dein#add('preservim/nerdtree')
 call dein#add('Shougo/neosnippet.vim')
