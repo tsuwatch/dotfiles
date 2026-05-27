@@ -119,7 +119,6 @@ call dein#add('tpope/vim-bundler')
 call dein#add('tpope/vim-fugitive')
 call dein#add('tpope/vim-rhubarb')
 call dein#add('itchyny/lightline.vim')
-call dein#add('rhysd/committia.vim')
 
 " Finish dein initialization (required)
 call dein#end()
