@@ -9,3 +9,10 @@ for file in ${DOT_FILES[@]}
 do
 	ln -s $DIR/$file $HOME/$file
 done
+
+# neovim config
+mkdir -p $HOME/.config
+ln -s $DIR/.config/nvim $HOME/.config/nvim
+
+# Nerd Font
+brew install --cask font-hack-nerd-font
