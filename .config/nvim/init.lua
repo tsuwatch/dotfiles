@@ -61,10 +61,6 @@ require("lazy").setup({
     dependencies = { "folke/snacks.nvim" },
     lazy = false,
     config = true,
-    keys = {
-      { "<leader>a",  nil,                        desc = "AI/Claude Code" },
-      { "<leader>ac", "<cmd>ClaudeCode<cr>",      desc = "Toggle Claude" },
-    },
   },
   {
     "nvim-lualine/lualine.nvim",
@@ -95,4 +91,21 @@ require("lazy").setup({
   },
   { "tpope/vim-fugitive" },
   { "tpope/vim-rhubarb" },
+  {
+    "kdheepak/lazygit.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    keys = {
+      { "<leader>lg", "<cmd>LazyGit<cr>", desc = "LazyGit" },
+    },
+  },
+  {
+    "nvim-telescope/telescope.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    keys = {
+      { "<leader>ff", "<cmd>Telescope find_files<cr>",  desc = "Find files" },
+      { "<leader>fg", "<cmd>Telescope live_grep<cr>",   desc = "Live grep" },
+      { "<leader>fb", "<cmd>Telescope buffers<cr>",     desc = "Buffers" },
+      { "<leader>fh", "<cmd>Telescope help_tags<cr>",   desc = "Help tags" },
+    },
+  },
 })
