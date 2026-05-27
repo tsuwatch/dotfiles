@@ -16,3 +16,6 @@ ln -s $DIR/.config/nvim $HOME/.config/nvim
 
 # Nerd Font
 brew install --cask font-hack-nerd-font
+
+# CLI tools
+brew install ripgrep lazygit
