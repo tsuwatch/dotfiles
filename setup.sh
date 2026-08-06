@@ -18,4 +18,4 @@ ln -s $DIR/.config/nvim $HOME/.config/nvim
 brew install --cask font-hack-nerd-font
 
 # CLI tools
-brew install ripgrep lazygit
+brew install ripgrep lazygit peco
