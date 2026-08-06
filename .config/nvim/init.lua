@@ -77,7 +77,11 @@ require("lazy").setup({
     "nvim-tree/nvim-tree.lua",
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      require("nvim-tree").setup()
+      require("nvim-tree").setup({
+        filters = {
+          git_ignored = false, -- gitignore されたファイルも表示する
+        },
+      })
       vim.keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Toggle file tree" })
       -- 引数なしで起動したときだけファイルツリーを開く
       vim.api.nvim_create_autocmd("VimEnter", {
