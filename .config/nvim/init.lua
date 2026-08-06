@@ -112,4 +112,24 @@ require("lazy").setup({
       { "<leader>fh", "<cmd>Telescope help_tags<cr>",   desc = "Help tags" },
     },
   },
+  {
+    "lmilojevicc/herdr-splits.nvim",
+    cond = vim.env.HERDR_ENV == "1", -- Herdr 内でのみ有効化
+    event = "VeryLazy",
+    build = ':lua require("herdr-splits").sync_herdr()',
+    config = function()
+      require("herdr-splits").setup()
+      local splits = require("herdr-splits")
+      -- Ctrl+hjkl でNeovim分割とHerdrペインを移動
+      vim.keymap.set("n", "<C-h>", splits.move_cursor_left, { desc = "Navigate left" })
+      vim.keymap.set("n", "<C-j>", splits.move_cursor_down, { desc = "Navigate down" })
+      vim.keymap.set("n", "<C-k>", splits.move_cursor_up, { desc = "Navigate up" })
+      vim.keymap.set("n", "<C-l>", splits.move_cursor_right, { desc = "Navigate right" })
+      -- Alt+hjkl でリサイズ
+      vim.keymap.set("n", "<M-h>", splits.resize_left, { desc = "Resize left" })
+      vim.keymap.set("n", "<M-j>", splits.resize_down, { desc = "Resize down" })
+      vim.keymap.set("n", "<M-k>", splits.resize_up, { desc = "Resize up" })
+      vim.keymap.set("n", "<M-l>", splits.resize_right, { desc = "Resize right" })
+    end,
+  },
 })
